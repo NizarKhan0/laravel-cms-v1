@@ -42,6 +42,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'backend_users',
+        ],
     ],
 
     /*
@@ -65,6 +69,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', User::class),
+        ],
+
+        'backend_users' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_BACKEND_USER_MODEL', App\Models\backendUser\BackendUser::class),
         ],
 
         // 'users' => [

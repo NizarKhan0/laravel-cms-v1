@@ -149,8 +149,9 @@
 
                     <!-- Menu Item Dashboard -->
                     <li>
-                        <a href="#" @click="selected = (selected === 'Dashboard' ? '':'Dashboard')"
-                            class="menu-item group" :class="(selected === 'Dashboard') && (page === 'dashboard') ? 'menu-item-active' :
+                        <a href="{{ route('admin.dashboard') }}"
+                            @click="selected = (selected === 'Dashboard' ? '':'Dashboard')" class="menu-item group"
+                            :class="(selected === 'Dashboard') && (page === 'dashboard') ? 'menu-item-active' :
                                                             'menu-item-inactive'">
                             <svg :class="(selected === 'Dashboard') && (page === 'dashboard') ? 'menu-item-icon-active' :
                                                             'menu-item-icon-inactive'" width="24" height="24"
@@ -197,7 +198,7 @@
                             :class="(selected === 'UserManagement') ? 'block' : 'hidden'">
                             <ul :class="sidebarToggle ? 'lg:hidden' : 'flex'"
                                 class="flex flex-col gap-1 mt-2 menu-dropdown pl-9">
-                                <li>
+                                {{-- <li>
                                     <a href="#" @click="page = 'userProfile'" class="menu-dropdown-item group"
                                         :class="page === 'userProfile' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
                                         User Profile
@@ -208,9 +209,10 @@
                                         :class="page === 'frontendUser' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
                                         Frontend User
                                     </a>
-                                </li>
+                                </li> --}}
                                 <li>
-                                    <a href="#" @click="page = 'backendUser'" class="menu-dropdown-item group"
+                                    <a href="{{ route('backend-user.index') }}" @click="page = 'backendUser'"
+                                        class="menu-dropdown-item group"
                                         :class="page === 'backendUser' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
                                         Backend User
                                     </a>
