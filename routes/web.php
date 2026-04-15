@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\backendUser\BackendUserController;
 use App\Http\Controllers\backendUser\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\backendUser\Auth\EmailVerificationController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Models\backendUser\BackendUser;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,6 +66,7 @@ Route::prefix('admin')->middleware('guest:admin')->group(function () {
 
     // login page
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])
+        ->middleware('throttle:5,1')
         ->name('admin.login');
 
     // login submit
@@ -82,6 +86,25 @@ Route::prefix('admin')->middleware('guest:admin')->group(function () {
         ->name('admin.password.update');
 });
 
+//verify email backend user
+// Email verification Laravel =
+// “System hantar link signed URL → user click → system verify ID + hash → mark email_verified_at → redirect”
+Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) {
+
+    $user = BackendUser::findOrFail($id); // ✅ FIX HERE
+
+    if (! hash_equals($hash, sha1($user->getEmailForVerification()))) {
+        abort(403, 'Invalid signature');
+    }
+
+    if (! $user->hasVerifiedEmail()) {
+        $user->markEmailAsVerified();
+    }
+
+    return redirect()->route('admin.login')
+        ->with('success', 'Email verified successfully. Please login.');
+
+})->middleware(['signed'])->name('verification.verify');
 
 /*
 |--------------------------------------------------------------------------
@@ -97,11 +120,21 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('admin.logout');
 
-    // dashboard
+    /*
+    |--------------------------------------------------------------------------
+    | EMAIL VERIFICATION
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/email/verify', [EmailVerificationController::class, 'notice'])
+        ->name('verification.notice');
+
+    Route::post('/email/verification-notification', [EmailVerificationController::class, 'resend'])
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
+
     Route::get('/dashboard', function () {
         return view('backend-user.module.dashboard');
     })->name('admin.dashboard');
-
 
     // backend-user CRUD
     Route::controller(BackendUserController::class)->group(function () {

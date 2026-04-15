@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Auth\Notifications\ResetPassword;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+
+        //override lobal sendemail guard admin
+        // ResetPassword::createUrlUsing(function ($notifiable, $token) {
+        //     return route('admin.password.reset', [
+        //         'token' => $token,
+        //         'email' => $notifiable->email,
+        //     ]);
+        // });
     }
 }

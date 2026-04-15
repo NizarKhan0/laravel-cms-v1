@@ -2,17 +2,19 @@
 
 namespace App\Models\backendUser;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Auth\Notifications\ResetPassword;
+
 
 #[Table('backend_users')]
 #[Fillable([
-    'username',
+    // 'username',
     'email',
     'email_verified_at',
     'password',
@@ -28,7 +30,7 @@ use Illuminate\Notifications\Notifiable;
     'two_factor_code',
     'remember_token',
 ])]
-class BackendUser extends Authenticatable
+class BackendUser extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
@@ -41,5 +43,18 @@ class BackendUser extends Authenticatable
             'two_factor_expires_at' => 'datetime',
             'is_active' => 'boolean',
         ];
+    }
+
+    // override per-model sendemail
+    public function sendPasswordResetNotification($token)
+    {
+        ResetPassword::createUrlUsing(function ($notifiable, $token) {
+            return route('admin.password.reset', [
+                'token' => $token,
+                'email' => $notifiable->email,
+            ]);
+        });
+
+        $this->notify(new ResetPassword($token));
     }
 }

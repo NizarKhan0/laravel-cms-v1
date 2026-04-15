@@ -71,7 +71,11 @@ class AuthenticatedSessionController extends Controller
             'email' => ['required','email']
         ]);
 
-        $status = Password::sendResetLink(
+        // $status = Password::sendResetLink(
+        //     $request->only('email')
+        // );
+
+         $status = Password::broker('admin')->sendResetLink(
             $request->only('email')
         );
 
@@ -83,10 +87,11 @@ class AuthenticatedSessionController extends Controller
     /**
      * Show reset password form
      */
-    public function resetPasswordForm($token)
+    public function resetPasswordForm(Request $request, $token)
     {
         return view('backend-user.auth.reset-password', [
-            'token' => $token
+            'token' => $token,
+            'email' => $request->query('email'),
         ]);
     }
 
@@ -101,7 +106,18 @@ class AuthenticatedSessionController extends Controller
             'password' => ['required','confirmed','min:8'],
         ]);
 
-        $status = Password::reset(
+        // $status = Password::reset(
+        //     $request->only('email','password','password_confirmation','token'),
+        //     function ($user) use ($request) {
+
+        //         $user->forceFill([
+        //             'password' => Hash::make($request->password),
+        //             'remember_token' => Str::random(60),
+        //         ])->save();
+        //     }
+        // );
+
+        $status = Password::broker('admin')->reset(
             $request->only('email','password','password_confirmation','token'),
             function ($user) use ($request) {
 

@@ -3,164 +3,134 @@
 @section('title', 'Create Backend User')
 
 @section('content')
-    <!-- Breadcrumb Start -->
-    <div x-data="{ pageName: `Create Backend Users` }" class="mb-6">
-        <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName"></h2>
 
-            <nav>
-                <ol class="flex items-center gap-1.5">
-                    <li>
-                        <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
-                            href="{{ route('admin.dashboard') }}">
-                            Home
-                            <svg class="stroke-current" width="17" height="16" viewBox="0 0 17 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366" stroke="" stroke-width="1.2"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </a>
-                    </li>
-                    <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName"></li>
-                </ol>
-            </nav>
+<!-- Breadcrumb Start -->
+<div x-data="{ pageName: `Create Backend Users` }" class="mb-6">
+    <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName"></h2>
+
+        <nav>
+            <ol class="flex items-center gap-1.5">
+                <li>
+                    <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
+                        href="{{ route('admin.dashboard') }}">
+                        Home
+                        <svg class="stroke-current" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                            <path d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366"
+                                stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                </li>
+                <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName"></li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<div class="space-y-6">
+
+    <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+
+        <div class="px-5 py-5">
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+                Fill in the information below to create a new backend user account.
+            </p>
         </div>
 
-    </div>
-    <!-- Breadcrumb End -->
+        <form action="{{ route('backend-user.store') }}" method="POST">
+            @csrf
 
-    <div class="space-y-5 sm:space-y-6">
-        <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
-            <div class="px-5 py-4 sm:px-6 sm:py-5">
+            <div class="space-y-6 border-t border-gray-100 p-6 dark:border-gray-800">
 
-                <div class="space-y-6">
-                    <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
-                        <div class="px-5 py-4 sm:px-6 sm:py-5">
-                            {{-- <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
-                                Create New Backend User
-                            </h3> --}}
-                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                                Fill in the information below to create a new backend user account.
-                            </p>
-                        </div>
+                <!-- EMAIL -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1.5">
+                        Email Address *
+                    </label>
+                    <input type="email" name="email" value="{{ old('email') }}"
+                        placeholder="example@domain.com"
+                        class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 @error('email') border-red-500 @enderror">
 
-                        <form action="{{ route('backend-user.store') }}" method="POST">
-                            @csrf
-
-                            <div class="space-y-6 border-t border-gray-100 p-5 sm:p-6 dark:border-gray-800">
-                                <!-- Email Field -->
-                                <div>
-                                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                        Email Address <span class="text-error-500">*</span>
-                                    </label>
-                                    <input type="email" name="email" value="{{ old('email') }}"
-                                        placeholder="example@domain.com"
-                                        class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 @error('email') border-error-300 @enderror">
-                                    @error('email')
-                                        <p class="text-theme-xs text-error-500 mt-1.5">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <!-- Password Field -->
-                                <div>
-                                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                        Password <span class="text-error-500">*</span>
-                                    </label>
-                                    <div x-data="{ showPassword: false }" class="relative">
-                                        <input :type="showPassword ? 'text' : 'password'" name="password"
-                                            placeholder="Enter your password"
-                                            class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent bg-none px-4 py-2.5 pr-11 pl-4 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 @error('password') border-error-300 @enderror">
-                                        <span @click="showPassword = !showPassword"
-                                            class="absolute top-1/2 right-4 z-30 -translate-y-1/2 cursor-pointer">
-                                            <svg x-show="!showPassword" class="fill-gray-500 dark:fill-gray-400" width="20"
-                                                height="20" viewBox="0 0 20 20" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                    d="M10.0002 13.8619C7.23361 13.8619 4.86803 12.1372 3.92328 9.70241C4.86804 7.26761 7.23361 5.54297 10.0002 5.54297C12.7667 5.54297 15.1323 7.26762 16.0771 9.70243C15.1323 12.1372 12.7667 13.8619 10.0002 13.8619ZM10.0002 4.04297C6.48191 4.04297 3.49489 6.30917 2.4155 9.4593C2.3615 9.61687 2.3615 9.78794 2.41549 9.94552C3.49488 13.0957 6.48191 15.3619 10.0002 15.3619C13.5184 15.3619 16.5055 13.0957 17.5849 9.94555C17.6389 9.78797 17.6389 9.6169 17.5849 9.45932C16.5055 6.30919 13.5184 4.04297 10.0002 4.04297ZM9.99151 7.84413C8.96527 7.84413 8.13333 8.67606 8.13333 9.70231C8.13333 10.7286 8.96527 11.5605 9.99151 11.5605H10.0064C11.0326 11.5605 11.8646 10.7286 11.8646 9.70231C11.8646 8.67606 11.0326 7.84413 10.0064 7.84413H9.99151Z">
-                                                </path>
-                                            </svg>
-                                            <svg x-show="showPassword" class="fill-gray-500 dark:fill-gray-400" width="20"
-                                                height="20" viewBox="0 0 20 20" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                    d="M4.63803 3.57709C4.34513 3.2842 3.87026 3.2842 3.57737 3.57709C3.28447 3.86999 3.28447 4.34486 3.57737 4.63775L4.85323 5.91362C3.74609 6.84199 2.89363 8.06395 2.4155 9.45936C2.3615 9.61694 2.3615 9.78801 2.41549 9.94558C3.49488 13.0957 6.48191 15.3619 10.0002 15.3619C11.255 15.3619 12.4422 15.0737 13.4994 14.5598L15.3625 16.4229C15.6554 16.7158 16.1302 16.7158 16.4231 16.4229C16.716 16.13 16.716 15.6551 16.4231 15.3622L4.63803 3.57709ZM12.3608 13.4212L10.4475 11.5079C10.3061 11.5423 10.1584 11.5606 10.0064 11.5606H9.99151C8.96527 11.5606 8.13333 10.7286 8.13333 9.70237C8.13333 9.5461 8.15262 9.39434 8.18895 9.24933L5.91885 6.97923C5.03505 7.69015 4.34057 8.62704 3.92328 9.70247C4.86803 12.1373 7.23361 13.8619 10.0002 13.8619C10.8326 13.8619 11.6287 13.7058 12.3608 13.4212ZM16.0771 9.70249C15.7843 10.4569 15.3552 11.1432 14.8199 11.7311L15.8813 12.7925C16.6329 11.9813 17.2187 11.0143 17.5849 9.94561C17.6389 9.78803 17.6389 9.61696 17.5849 9.45938C16.5055 6.30925 13.5184 4.04303 10.0002 4.04303C9.13525 4.04303 8.30244 4.17999 7.52218 4.43338L8.75139 5.66259C9.1556 5.58413 9.57311 5.54303 10.0002 5.54303C12.7667 5.54303 15.1323 7.26768 16.0771 9.70249Z">
-                                                </path>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <p class="text-theme-xs text-gray-500 dark:text-gray-400 mt-1.5">
-                                        Password must be at least 8 characters long.
-                                    </p>
-                                    @error('password')
-                                        <p class="text-theme-xs text-error-500 mt-1.5">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <!-- First Name Field -->
-                                <div>
-                                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                        First Name
-                                    </label>
-                                    <input type="text" name="first_name" value="{{ old('first_name') }}"
-                                        placeholder="Enter first name"
-                                        class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 @error('first_name') border-error-300 @enderror">
-                                    @error('first_name')
-                                        <p class="text-theme-xs text-error-500 mt-1.5">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <!-- Last Name Field -->
-                                <div>
-                                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                        Last Name
-                                    </label>
-                                    <input type="text" name="last_name" value="{{ old('last_name') }}"
-                                        placeholder="Enter last name"
-                                        class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 @error('last_name') border-error-300 @enderror">
-                                    @error('last_name')
-                                        <p class="text-theme-xs text-error-500 mt-1.5">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <!-- Full Name Display (Optional) -->
-                                <div class="rounded-lg bg-gray-50 p-4 dark:bg-gray-800/50">
-                                    <p class="text-sm text-gray-600 dark:text-gray-400">
-                                        <span class="font-medium">Full Name Preview:</span>
-                                        <span x-data="{ firstName: '', lastName: '' }" x-text="firstName + ' ' + lastName"
-                                            x-init="
-                                                            $watch('firstName', () => {});
-                                                            $watch('lastName', () => {});
-                                                            document.querySelector('input[name=first_name]').addEventListener('input', (e) => firstName = e.target.value);
-                                                            document.querySelector('input[name=last_name]').addEventListener('input', (e) => lastName = e.target.value);
-                                                          ">
-                                            {{ old('first_name') }} {{ old('last_name') }}
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <!-- Form Actions -->
-                            <div
-                                class="flex items-center justify-end gap-3 border-t border-gray-100 px-5 py-4 sm:px-6 dark:border-gray-800">
-                                <a href="{{ route('backend-user.index') }}"
-                                    class="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700">
-                                    Cancel
-                                </a>
-                                <button type="submit"
-                                    class="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white shadow-theme-xs hover:bg-brand-600">
-                                    {{-- <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M16.875 4.5H11.8125V1.125C11.8125 0.503906 11.3086 0 10.6875 0H7.3125C6.69141 0 6.1875 0.503906 6.1875 1.125V4.5H1.125C0.503906 4.5 0 5.00391 0 5.625V16.875C0 17.4961 0.503906 18 1.125 18H16.875C17.4961 18 18 17.4961 18 16.875V5.625C18 5.00391 17.4961 4.5 16.875 4.5ZM7.875 1.6875H10.125V4.5H7.875V1.6875Z"
-                                            fill="" />
-                                    </svg> --}}
-                                    Create User
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                    @error('email')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
+
+                <!-- PASSWORD -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1.5">
+                        Password *
+                    </label>
+
+                    <div x-data="{ show: false }" class="relative">
+                        <input :type="show ? 'text' : 'password'" name="password"
+                            class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 pr-10 text-sm dark:border-gray-700 dark:bg-gray-900 @error('password') border-red-500 @enderror">
+
+                        <button type="button" @click="show = !show"
+                            class="absolute right-3 top-2.5 text-gray-500">
+                            👁
+                        </button>
+                    </div>
+
+                    @error('password')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- FIRST NAME -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1.5">
+                        First Name
+                    </label>
+                    <input type="text" name="first_name" value="{{ old('first_name') }}"
+                        class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900">
+                </div>
+
+                <!-- LAST NAME -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1.5">
+                        Last Name
+                    </label>
+                    <input type="text" name="last_name" value="{{ old('last_name') }}"
+                        class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900">
+                </div>
+
+                <!-- 🔥 NEW FIELD: EMAIL VERIFICATION TOGGLE -->
+                <div class="flex items-start gap-3 pt-2">
+                    <div>
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" name="send_verification_email" class="mr-2">
+                            Send email verification
+                        </label>
+
+                        <p class="text-xs text-gray-500 dark:text-gray-500">
+                            User will receive an email to verify their account.
+                        </p>
+                    </div>
+
+                </div>
+
             </div>
-        </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="flex justify-end gap-3 border-t border-gray-100 px-6 py-4 dark:border-gray-800">
+
+                <a href="{{ route('backend-user.index') }}"
+                    class="rounded-lg border px-4 py-2 text-sm text-gray-700 dark:text-gray-300">
+                    Cancel
+                </a>
+
+                <button type="submit"
+                    class="rounded-lg bg-brand-500 px-4 py-2 text-sm text-white hover:bg-brand-600">
+                    Create User
+                </button>
+
+            </div>
+
+        </form>
+
     </div>
+</div>
+
 @endsection

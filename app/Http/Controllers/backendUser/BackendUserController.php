@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\backendUser\BackendUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+// use Illuminate\Auth\Events\Registered;
 
 class BackendUserController extends Controller
 {
@@ -40,19 +41,30 @@ class BackendUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|unique:backend_backend_users,email',
+            'email' => 'required|email|unique:backend_users,email',
             'password' => 'required|min:6',
             'first_name' => 'required',
             'last_name' => 'required',
         ]);
 
-        BackendUser::create([
+        // 🔥 assign to variable
+        $user = BackendUser::create([
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'is_active' => $request->is_active ?? 1,
         ]);
+
+        // OPTIONAL: send verification email
+        // if ($request->send_verification_email) {
+        //     event(new Registered($user));
+        // }
+        // OPTIONAL: send verification email
+        if ($request->send_verification_email) {
+            $user->sendEmailVerificationNotification();
+        }
+
 
         return redirect()->route('backend-user.index')
             ->with('success', 'User created successfully');
