@@ -58,10 +58,10 @@
             <form method="POST" action="{{ route('admin.login.submit') }}">
                 @csrf
 
-                <!-- Email Address -->
+                <!-- Login Field -->
                 <div class="mb-5">
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
-                        Email Address
+                    <label for="login" class="block text-sm font-medium text-gray-700 mb-1">
+                        Email Address or Username
                     </label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -69,11 +69,11 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path>
                             </svg>
                         </div>
-                        <input type="email" name="email" id="email" value="{{ old('email') }}" required autofocus autocomplete="username"
-                            class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 @error('email') border-red-500 @enderror"
-                            placeholder="admin@example.com">
+                        <input type="text" name="login" id="login" value="{{ old('login') }}" required autofocus autocomplete="username"
+                            class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 @error('login') border-red-500 @enderror"
+                            placeholder="admin@example.com or admin">
                     </div>
-                    @error('email')
+                    @error('login')
                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
@@ -129,7 +129,7 @@
                 <!-- Demo Credentials (Optional - remove in production) -->
                 <div class="mt-6 p-3 bg-blue-50 rounded-lg border border-blue-200">
                     <p class="text-xs text-blue-800 font-medium mb-1">Demo Credentials:</p>
-                    <p class="text-xs text-blue-700">Email: admin@example.com</p>
+                    <p class="text-xs text-blue-700">Email/Username: superadmin@example.com / superadmin</p>
                     <p class="text-xs text-blue-700">Password: password</p>
                 </div>
             </form>

@@ -10,6 +10,12 @@
     <title>CMS - @yield('title')</title>
     <link rel="icon" href="favicon.ico">
     <link href="{{ asset('tailadmin/build/style.css') }}" rel="stylesheet">
+    <style>
+        .fl-wrapper[data-position^=top-] {
+            top: 85px !important; /* Push flasher down below the sticky header */
+            z-index: 999999 !important; /* Ensure it stays above other elements */
+        }
+    </style>
 </head>
 
 <body

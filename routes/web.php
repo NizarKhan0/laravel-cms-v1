@@ -55,6 +55,11 @@ Route::get('/', function () {
 //     return redirect('/admin/login');
 // });
 
+Route::get('/admin', function () {
+    return redirect()->route('admin.dashboard');
+})->middleware('admin');
+
+
 /*
 |--------------------------------------------------------------------------
 | ADMIN GUEST (NOT LOGIN)
@@ -62,7 +67,7 @@ Route::get('/', function () {
 */
 Route::prefix('admin')->middleware('guest:admin')->group(function () {
 
-    Route::redirect('/', '/admin/login'); // Redirect /admin to /admin/login
+    // Route::redirect('/', '/admin/login'); // Redirect /admin to /admin/login
 
     // login page
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])
@@ -73,16 +78,16 @@ Route::prefix('admin')->middleware('guest:admin')->group(function () {
     Route::post('/login', [AuthenticatedSessionController::class, 'store'])
         ->name('admin.login.submit');
 
-    Route::get('/forgot-password',[AuthenticatedSessionController::class,'forgotPassword'])
+    Route::get('/forgot-password', [AuthenticatedSessionController::class, 'forgotPassword'])
         ->name('admin.password.request');
 
-    Route::post('/forgot-password',[AuthenticatedSessionController::class,'sendResetLink'])
+    Route::post('/forgot-password', [AuthenticatedSessionController::class, 'sendResetLink'])
         ->name('admin.password.email');
 
-    Route::get('/reset-password/{token}',[AuthenticatedSessionController::class,'resetPasswordForm'])
+    Route::get('/reset-password/{token}', [AuthenticatedSessionController::class, 'resetPasswordForm'])
         ->name('admin.password.reset');
 
-    Route::post('/reset-password',[AuthenticatedSessionController::class,'resetPassword'])
+    Route::post('/reset-password', [AuthenticatedSessionController::class, 'resetPassword'])
         ->name('admin.password.update');
 });
 
@@ -93,11 +98,11 @@ Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) 
 
     $user = BackendUser::findOrFail($id); // ✅ FIX HERE
 
-    if (! hash_equals($hash, sha1($user->getEmailForVerification()))) {
+    if (!hash_equals($hash, sha1($user->getEmailForVerification()))) {
         abort(403, 'Invalid signature');
     }
 
-    if (! $user->hasVerifiedEmail()) {
+    if (!$user->hasVerifiedEmail()) {
         $user->markEmailAsVerified();
     }
 
@@ -114,7 +119,7 @@ Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) 
 Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
     // Handle /admin → redirect ke dashboard untuk yang dah login
-    Route::redirect('/', '/admin/dashboard');
+    // Route::redirect('/', '/admin/dashboard');
 
     // logout
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
@@ -126,11 +131,11 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     |--------------------------------------------------------------------------
     */
     Route::get('/email/verify', [EmailVerificationController::class, 'notice'])
-        ->name('verification.notice');
+        ->name('admin.verification.notice');
 
     Route::post('/email/verification-notification', [EmailVerificationController::class, 'resend'])
         ->middleware('throttle:6,1')
-        ->name('verification.send');
+        ->name('admin.verification.send');
 
     Route::get('/dashboard', function () {
         return view('backend-user.module.dashboard');

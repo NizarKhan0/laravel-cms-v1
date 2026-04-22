@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backendUser;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\backendUser\UserRequest;
 use App\Models\backendUser\BackendUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -38,17 +39,12 @@ class BackendUserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $request->validate([
-            'email' => 'required|email|unique:backend_users,email',
-            'password' => 'required|min:6',
-            'first_name' => 'required',
-            'last_name' => 'required',
-        ]);
+        // Validation is automatically handled by UserRequest
 
-        // 🔥 assign to variable
         $user = BackendUser::create([
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'first_name' => $request->first_name,
@@ -57,17 +53,13 @@ class BackendUserController extends Controller
         ]);
 
         // OPTIONAL: send verification email
-        // if ($request->send_verification_email) {
-        //     event(new Registered($user));
-        // }
-        // OPTIONAL: send verification email
         if ($request->send_verification_email) {
             $user->sendEmailVerificationNotification();
         }
 
+        flash()->use('theme.ios')->success('User created successfully!');
 
-        return redirect()->route('backend-user.index')
-            ->with('success', 'User created successfully');
+        return redirect()->route('backend-user.index');
     }
 
     /**
@@ -103,17 +95,12 @@ class BackendUserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
         $backendUsers = BackendUser::findOrFail($id);
 
-        $request->validate([
-            'email' => 'required|email|unique:backend_users,email,' . $id,
-            'first_name' => 'required',
-            'last_name' => 'required',
-        ]);
-
         $data = [
+            'username' => $request->username,
             'email' => $request->email,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -126,8 +113,9 @@ class BackendUserController extends Controller
 
         $backendUsers->update($data);
 
-        return redirect()->route('backend-user.index')
-            ->with('success', 'User updated successfully');
+        flash()->use('theme.ios')->success('User updated successfully!');
+
+        return redirect()->route('backend-user.index');
     }
 
     /**
@@ -138,7 +126,8 @@ class BackendUserController extends Controller
         $backendUsers = BackendUser::findOrFail($id);
         $backendUsers->delete();
 
-        return redirect()->route('backend-user.index')
-            ->with('success', 'User deleted successfully.');
+        flash()->use('theme.ios')->success('User deleted successfully.');
+
+        return redirect()->route('backend-user.index');
     }
 }

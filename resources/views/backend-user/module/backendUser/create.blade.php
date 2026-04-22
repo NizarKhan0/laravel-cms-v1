@@ -43,6 +43,20 @@
 
             <div class="space-y-6 border-t border-gray-100 p-6 dark:border-gray-800">
 
+                <!-- USERNAME -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1.5">
+                        Username *
+                    </label>
+                    <input type="text" name="username" value="{{ old('username') }}"
+                        placeholder="johndoe"
+                        class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 @error('username') border-red-500 @enderror">
+
+                    @error('username')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <!-- EMAIL -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1.5">

@@ -14,7 +14,7 @@ use Illuminate\Auth\Notifications\ResetPassword;
 
 #[Table('backend_users')]
 #[Fillable([
-    // 'username',
+    'username',
     'email',
     'email_verified_at',
     'password',

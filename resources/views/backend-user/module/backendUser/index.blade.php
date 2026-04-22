@@ -38,31 +38,30 @@
                     </h3>
                     <a href="{{ route('backend-user.create') }}"
                         class="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-theme-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
-                        <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18" fill="none"
+                        <svg class="fill-current" width="18" height="18" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M9 2C9.41421 2 9.75 2.33579 9.75 2.75V8.25H15.25C15.6642 8.25 16 8.58579 16 9C16 9.41421 15.6642 9.75 15.25 9.75H9.75V15.25C9.75 15.6642 9.41421 16 9 16C8.58579 16 8.25 15.6642 8.25 15.25V9.75H2.75C2.33579 9.75 2 9.41421 2 9C2 8.58579 2.33579 8.25 2.75 8.25H8.25V2.75C8.25 2.33579 8.58579 2 9 2Z"
-                                fill=""></path>
+                            <path
+                                d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM2.615 16.428a1.224 1.224 0 0 1-.569-1.175 6.002 6.002 0 0 1 11.908 0c.058.467-.172.92-.57 1.174A9.953 9.953 0 0 1 8 18a9.953 9.953 0 0 1-5.385-1.572ZM16.25 5.75a.75.75 0 0 0-1.5 0v2h-2a.75.75 0 0 0 0 1.5h2v2a.75.75 0 0 0 1.5 0v-2h2a.75.75 0 0 0 0-1.5h-2v-2Z" />
                         </svg>
                         Create New User
                     </a>
                 </div>
 
                 <!-- Success Message -->
-                @if(session('success'))
-                    <div
-                        class="mb-5 rounded-xl border border-green-200 bg-green-50 p-4 dark:border-green-500/20 dark:bg-green-500/10">
-                        <div class="flex items-center gap-2">
-                            <svg class="fill-green-500" width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18ZM13.7071 8.70711C14.0976 8.31658 14.0976 7.68342 13.7071 7.29289C13.3166 6.90237 12.6834 6.90237 12.2929 7.29289L9 10.5858L7.70711 9.29289C7.31658 8.90237 6.68342 8.90237 6.29289 9.29289C5.90237 9.68342 5.90237 10.3166 6.29289 10.7071L8.29289 12.7071C8.68342 13.0976 9.31658 13.0976 9.70711 12.7071L13.7071 8.70711Z"
-                                    fill=""></path>
-                            </svg>
-                            <p class="text-sm text-green-700 dark:text-green-400">{{ session('success') }}</p>
-                        </div>
-                    </div>
-                @endif
+                <!-- @if(session('success'))
+                            <div
+                                class="mb-5 rounded-xl border border-green-200 bg-green-50 p-4 dark:border-green-500/20 dark:bg-green-500/10">
+                                <div class="flex items-center gap-2">
+                                    <svg class="fill-green-500" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18ZM13.7071 8.70711C14.0976 8.31658 14.0976 7.68342 13.7071 7.29289C13.3166 6.90237 12.6834 6.90237 12.2929 7.29289L9 10.5858L7.70711 9.29289C7.31658 8.90237 6.68342 8.90237 6.29289 9.29289C5.90237 9.68342 5.90237 10.3166 6.29289 10.7071L8.29289 12.7071C8.68342 13.0976 9.31658 13.0976 9.70711 12.7071L13.7071 8.70711Z"
+                                            fill=""></path>
+                                    </svg>
+                                    <p class="text-sm text-green-700 dark:text-green-400">{{ session('success') }}</p>
+                                </div>
+                            </div>
+                        @endif -->
 
                 <div class="rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.02]">
                     <div class="p-5">
@@ -77,6 +76,12 @@
                                                 <span
                                                     class="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                                     No
+                                                </span>
+                                            </th>
+                                            <th class="px-5 py-3 text-left">
+                                                <span
+                                                    class="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                                    Username
                                                 </span>
                                             </th>
                                             <th class="px-5 py-3 text-left">
@@ -112,6 +117,11 @@
                                                 <td class="px-5 py-4">
                                                     <span class="block text-sm font-medium text-gray-800 dark:text-white/90">
                                                         {{ $loop->iteration }}
+                                                    </span>
+                                                </td>
+                                                <td class="px-5 py-4">
+                                                    <span class="block text-sm text-gray-600 dark:text-gray-400">
+                                                        {{ $user->username }}
                                                     </span>
                                                 </td>
                                                 <td class="px-5 py-4">
@@ -155,12 +165,11 @@
                                                         </a>
                                                         <!-- Delete Button -->
                                                         <form action="{{ route('backend-user.destroy', $user->id) }}"
-                                                            method="POST" class="inline">
+                                                            method="POST" class="inline delete-form">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit"
                                                                 class="inline-flex items-center justify-center rounded-lg bg-error-50 p-2 text-error-500 hover:bg-error-100 dark:bg-error-500/10 dark:text-error-400 dark:hover:bg-error-500/20"
-                                                                onclick="return confirm('Are you sure you want to delete this user?')"
                                                                 title="Delete User">
                                                                 <svg class="fill-current" width="18" height="18"
                                                                     viewBox="0 0 18 18" fill="none"
@@ -215,4 +224,37 @@
             </div>
         </div>
     </div>
+    <!-- SweetAlert2 JS for Delete Confirmation -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteForms = document.querySelectorAll('.delete-form');
+            deleteForms.forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#ef4444',
+                        cancelButtonColor: '#6b7280',
+                        confirmButtonText: 'Yes, delete it!',
+                        width: '380px', // Jadikan kotak lebih kecil
+                        padding: '1.25em',
+                        customClass: {
+                            title: 'text-lg font-semibold',
+                            htmlContainer: 'text-sm',
+                            actions: 'text-sm'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 @endsection

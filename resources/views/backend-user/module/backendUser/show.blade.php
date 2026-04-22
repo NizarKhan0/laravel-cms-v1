@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <a href="{{ route('backend-user.edit', $backendUsers->id) }}"
-                                        class="inline-flex items-center gap-2 rounded-lg bg-warning-500 px-4 py-2.5 text-sm font-medium text-white shadow-theme-xs hover:bg-warning-600">
+                                        class="inline-flex items-center gap-2 rounded-lg border border-warning-300 bg-white px-4 py-2.5 text-sm font-medium text-warning-600 shadow-theme-xs hover:bg-warning-50 dark:border-warning-500/30 dark:bg-warning-500/10 dark:text-warning-400 dark:hover:bg-warning-500/20">
                                         <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -65,6 +65,21 @@
                                         </svg>
                                         Edit User
                                     </a>
+                                    <form action="{{ route('backend-user.destroy', $backendUsers->id) }}" method="POST"
+                                        class="inline delete-form">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="inline-flex items-center gap-2 rounded-lg border border-error-300 bg-white px-4 py-2.5 text-sm font-medium text-error-600 shadow-theme-xs hover:bg-error-50 dark:border-error-500/30 dark:bg-error-500/10 dark:text-error-400 dark:hover:bg-error-500/20">
+                                            <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                    d="M6 2.5H12L13 3.5H16V5H2V3.5H5L6 2.5ZM3.5 6H14.5L14 15.5H4L3.5 6ZM6.5 8.5H8V13.5H6.5V8.5ZM10 8.5H11.5V13.5H10V8.5Z"
+                                                    fill=""></path>
+                                            </svg>
+                                            Delete User
+                                        </button>
+                                    </form>
                                     <a href="{{ route('backend-user.index') }}"
                                         class="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700">
                                         <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18" fill="none"
@@ -85,17 +100,6 @@
                         <div class="space-y-6 p-5 sm:p-6">
                             <!-- User Information Grid -->
                             <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-                                <!-- User ID -->
-                                <div
-                                    class="rounded-lg border border-gray-100 bg-gray-50 p-4 dark:border-gray-800 dark:bg-gray-800/30">
-                                    <label
-                                        class="mb-2 block text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                        User ID
-                                    </label>
-                                    <p class="text-base font-semibold text-gray-800 dark:text-white/90">
-                                        #{{ $backendUsers->id }}
-                                    </p>
-                                </div>
 
                                 <!-- Email Address -->
                                 <div
@@ -106,6 +110,18 @@
                                     </label>
                                     <p class="text-base font-medium text-gray-800 dark:text-white/90">
                                         {{ $backendUsers->email }}
+                                    </p>
+                                </div>
+
+                                <!-- Username -->
+                                <div
+                                    class="rounded-lg border border-gray-100 bg-gray-50 p-4 dark:border-gray-800 dark:bg-gray-800/30">
+                                    <label
+                                        class="mb-2 block text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                        Username
+                                    </label>
+                                    <p class="text-base font-medium text-gray-800 dark:text-white/90">
+                                        {{ $backendUsers->username }}
                                     </p>
                                 </div>
 
@@ -224,39 +240,43 @@
                             </div>
                         </div>
 
-                        <!-- Form Actions -->
-                        <div
-                            class="flex items-center justify-end gap-3 border-t border-gray-100 px-5 py-4 sm:px-6 dark:border-gray-800">
-                            <form action="{{ route('backend-user.destroy', $backendUsers->id) }}" method="POST"
-                                class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                    class="inline-flex items-center gap-2 rounded-lg border border-error-300 bg-white px-4 py-2.5 text-sm font-medium text-error-600 shadow-theme-xs hover:bg-error-50 dark:border-error-500/30 dark:bg-error-500/10 dark:text-error-400 dark:hover:bg-error-500/20"
-                                    onclick="return confirm('Are you sure you want to delete this user? This action cannot be undone.')">
-                                    <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                            d="M6 2.5H12L13 3.5H16V5H2V3.5H5L6 2.5ZM3.5 6H14.5L14 15.5H4L3.5 6ZM6.5 8.5H8V13.5H6.5V8.5ZM10 8.5H11.5V13.5H10V8.5Z"
-                                            fill=""></path>
-                                    </svg>
-                                    Delete User
-                                </button>
-                            </form>
-                            <a href="{{ route('backend-user.edit', $backendUsers->id) }}"
-                                class="inline-flex items-center gap-2 rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white shadow-theme-xs hover:bg-brand-600">
-                                <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M13.5 2.5L15.5 4.5L5 15H3V13L13.5 2.5ZM14.5 1.5L12.5 3.5L14.5 5.5L16.5 3.5L14.5 1.5Z"
-                                        fill=""></path>
-                                </svg>
-                                Edit User
-                            </a>
-                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- SweetAlert2 JS for Delete Confirmation -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteForms = document.querySelectorAll('.delete-form');
+            deleteForms.forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#ef4444',
+                        cancelButtonColor: '#6b7280',
+                        confirmButtonText: 'Yes, delete it!',
+                        width: '380px',
+                        padding: '1.25em',
+                        customClass: {
+                            title: 'text-lg font-semibold',
+                            htmlContainer: 'text-sm',
+                            actions: 'text-sm'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 @endsection
