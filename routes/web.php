@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\backendUser\BackendUserController;
+use App\Http\Controllers\backendUser\FrontendUserController;
 use App\Http\Controllers\backendUser\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\backendUser\Auth\EmailVerificationController;
 use Illuminate\Support\Facades\Route;
@@ -151,6 +152,18 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
         Route::get('/backend-user/{id}/edit', 'edit')->name('backend-user.edit');
         Route::put('/backend-user/{id}', 'update')->name('backend-user.update');
         Route::delete('/backend-user/{id}', 'destroy')->name('backend-user.destroy');
+    });
+
+    // frontend-user CRUD
+    Route::controller(FrontendUserController::class)->group(function () {
+
+        Route::get('/frontend-user', 'index')->name('frontend-user.index');
+        Route::get('/frontend-user/create', 'create')->name('frontend-user.create');
+        Route::post('/frontend-user', 'store')->name('frontend-user.store');
+        Route::get('/frontend-user/{id}', 'show')->name('frontend-user.show');
+        Route::get('/frontend-user/{id}/edit', 'edit')->name('frontend-user.edit');
+        Route::put('/frontend-user/{id}', 'update')->name('frontend-user.update');
+        Route::delete('/frontend-user/{id}', 'destroy')->name('frontend-user.destroy');
     });
 
 });

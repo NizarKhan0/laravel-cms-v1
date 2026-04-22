@@ -203,12 +203,6 @@
                                         :class="page === 'userProfile' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
                                         User Profile
                                     </a>
-                                </li>
-                                <li>
-                                    <a href="#" @click="page = 'frontendUser'" class="menu-dropdown-item group"
-                                        :class="page === 'frontendUser' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
-                                        Frontend User
-                                    </a>
                                 </li> --}}
                                 <li>
                                     <a href="{{ route('backend-user.index') }}" @click="page = 'backendUser'"
@@ -217,11 +211,67 @@
                                         Backend User
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="{{ route('frontend-user.index') }}" @click="page = 'frontendUser'"
+                                        class="menu-dropdown-item group"
+                                        :class="page === 'frontendUser' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                                        Frontend User
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                         <!-- Dropdown Menu End -->
                     </li>
                     <!-- Menu Item User Management -->
+
+                    <!-- Menu Item Roles & Permissions -->
+                    <li>
+                        <a href="#"
+                            @click.prevent="selected = (selected === 'RolesPermissions' ? '':'RolesPermissions')"
+                            class="menu-item group"
+                            :class="(selected === 'RolesPermissions') ? 'menu-item-active' : 'menu-item-inactive'">
+                            <svg :class="(selected === 'RolesPermissions') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
+                                width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M12 2L3 7V12C3 17.25 6.75 22.13 12 23C17.25 22.13 21 17.25 21 12V7L12 2ZM12 4.18L19 8.3V12C19 16.35 16.05 20.36 12 21.18C7.95 20.36 5 16.35 5 12V8.3L12 4.18ZM10 15.5L7.5 13L6.09 14.41L10 18.33L18 10.33L16.59 8.92L10 15.5Z"
+                                    fill="" />
+                            </svg>
+
+                            <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                Roles & Permissions
+                            </span>
+
+                            <svg class="menu-item-arrow" :class="[(selected === 'RolesPermissions') ? 'menu-item-arrow-active' : 'menu-item-arrow-inactive',
+                sidebarToggle ? 'lg:hidden' : ''
+            ]" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585" stroke="" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
+
+                        <!-- Dropdown Menu Start -->
+                        <div class="overflow-hidden transform translate"
+                            :class="(selected === 'RolesPermissions') ? 'block' : 'hidden'">
+                            <ul :class="sidebarToggle ? 'lg:hidden' : 'flex'"
+                                class="flex flex-col gap-1 mt-2 menu-dropdown pl-9">
+                                <li>
+                                    <a href="#" @click="page = 'roles'" class="menu-dropdown-item group"
+                                        :class="page === 'roles' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                                        Roles
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" @click="page = 'permissions'" class="menu-dropdown-item group"
+                                        :class="page === 'permissions' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                                        Permissions
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Dropdown Menu End -->
+                    </li>
+                    <!-- Menu Item Roles & Permissions -->
                 </ul>
             </div>
 
