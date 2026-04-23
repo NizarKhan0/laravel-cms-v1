@@ -39,7 +39,16 @@ class AuthenticatedSessionController extends Controller
         if (Auth::guard('admin')->attempt($credentials, $request->boolean('remember'))) {
 
             $request->session()->regenerate();
-
+            
+            // Update last login timestamp for the admin user without triggering activity log
+            if ($admin = Auth::guard('admin')->user()) {
+                // Only set if the column exists in the model/table
+                if (in_array('last_login_at', array_keys($admin->getAttributes()))) {
+                    // Use updateQuietly to avoid logging and model events
+                    $admin->updateQuietly(['last_login_at' => now()]);
+                }
+            }
+            
             return redirect()->intended('/admin/dashboard');
         }
 
@@ -78,11 +87,7 @@ class AuthenticatedSessionController extends Controller
             'email' => ['required','email']
         ]);
 
-        // $status = Password::sendResetLink(
-        //     $request->only('email')
-        // );
-
-         $status = Password::broker('admin')->sendResetLink(
+        $status = Password::broker('admin')->sendResetLink(
             $request->only('email')
         );
 
@@ -112,17 +117,6 @@ class AuthenticatedSessionController extends Controller
             'email' => ['required','email'],
             'password' => ['required','confirmed','min:8'],
         ]);
-
-        // $status = Password::reset(
-        //     $request->only('email','password','password_confirmation','token'),
-        //     function ($user) use ($request) {
-
-        //         $user->forceFill([
-        //             'password' => Hash::make($request->password),
-        //             'remember_token' => Str::random(60),
-        //         ])->save();
-        //     }
-        // );
 
         $status = Password::broker('admin')->reset(
             $request->only('email','password','password_confirmation','token'),

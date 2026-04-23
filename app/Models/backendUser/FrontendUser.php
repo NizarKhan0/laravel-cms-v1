@@ -27,6 +27,7 @@ use Spatie\Activitylog\Support\LogOptions;
     'two_factor_expires_at',
     'two_factor_code',
     'is_active',
+    'last_login_at',
 ])]
 #[Hidden([
     'password',
@@ -45,6 +46,7 @@ class FrontendUser extends Authenticatable implements MustVerifyEmail
             'expires_at' => 'datetime',
             'two_factor_expires_at' => 'datetime',
             'is_active' => 'boolean',
+            'last_login_at' => 'datetime',
         ];
     }
 

@@ -130,4 +130,48 @@ class BackendUserController extends Controller
 
         return redirect()->route('backend-user.index');
     }
+
+    /**
+     * Show profile edit form for the currently authenticated admin user
+     */
+    public function editProfile()
+    {
+        $user = auth()->guard('admin')->user();
+        return view('backend-user.profile.edit', [
+            'user' => $user,
+        ]);
+    }
+
+    /**
+     * Update the profile of the currently authenticated admin user
+     */
+    public function updateProfile(Request $request)
+    {
+        $user = auth()->guard('admin')->user();
+
+        $request->validate([
+            'username' => 'required|string|max:255|unique:backend_users,username,' . $user->id,
+            'email' => 'required|email|unique:backend_users,email,' . $user->id,
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'password' => 'nullable|min:6',
+        ]);
+
+        $data = [
+            'username' => $request->username,
+            'email' => $request->email,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+        ];
+
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        $user->update($data);
+
+        flash()->use('theme.ios')->success('Profile updated successfully!');
+
+        return redirect()->route('admin.dashboard');
+    }
 }

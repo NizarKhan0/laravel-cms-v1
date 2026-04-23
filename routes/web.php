@@ -155,6 +155,10 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
         Route::get('/backend-user/{id}/edit', 'edit')->name('backend-user.edit');
         Route::put('/backend-user/{id}', 'update')->name('backend-user.update');
         Route::delete('/backend-user/{id}', 'destroy')->name('backend-user.destroy');
+
+        // Admin profile (current user) edit
+        Route::get('/profile/edit', 'editProfile')->name('admin.profile.edit');
+        Route::put('/profile', 'updateProfile')->name('admin.profile.update');
     });
 
     // frontend-user CRUD
