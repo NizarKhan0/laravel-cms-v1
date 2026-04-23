@@ -1,14 +1,17 @@
 <?php
 
-use App\Http\Controllers\backendUser\BackendUserController;
 use App\Http\Controllers\backendUser\ActivityLogController;
-use App\Http\Controllers\backendUser\FrontendUserController;
 use App\Http\Controllers\backendUser\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\backendUser\Auth\EmailVerificationController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\backendUser\BackendUserController;
+use App\Http\Controllers\backendUser\FrontendUserController;
+use App\Http\Controllers\frontendUser\Auth\LoginController;
+use App\Http\Controllers\frontendUser\Auth\RegisterController;
+use App\Http\Controllers\frontendUser\UserController;
 use App\Models\backendUser\BackendUser;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 
 
@@ -61,7 +64,7 @@ Route::get('/', function () {
 
 Route::get('/admin', function () {
     return redirect()->route('admin.dashboard');
-})->middleware('admin');
+})->middleware('auth:admin');
 
 
 /*
@@ -112,7 +115,6 @@ Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) 
 
     return redirect()->route('admin.login')
         ->with('success', 'Email verified successfully. Please login.');
-
 })->middleware(['signed'])->name('verification.verify');
 
 /*
@@ -178,3 +180,46 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     // Route::get('/api/activity-logs', [ActivityLogController::class, 'indexApi'])->name('activity-log.api');
 
 });
+
+
+/*
+|--------------------------------------------------------------------------
+| FRONTEND USER AUTH (WEB GUARD)
+|--------------------------------------------------------------------------
+*/
+
+//auto redirect ke login user bila /user
+Route::get('/user', function () {
+    return redirect()->route('user.login');
+});
+
+Route::prefix('user')->group(function () {
+    //Register
+    Route::get('/register', [RegisterController::class, 'register'])->name('user.register');
+    Route::post('/register', [RegisterController::class, 'registerSubmit'])->name('user.register.submit');
+
+    //Login
+    Route::get('/login', [LoginController::class, 'login'])->name('user.login');
+    Route::post('/login', [LoginController::class, 'loginSubmit'])->name('user.login.submit');
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| USER AUTH (LOGIN REQUIRED)
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('user')->middleware('auth:user')->group(function () {
+    //Logout
+    Route::post('/logout', [LoginController::class, 'logout'])->name('user.logout');
+
+    //FrontendUser
+    Route::get('/dashboard', [UserController::class, 'index'])->name('user.dashboard');
+});
+
+// dd([
+//     'default' => auth()->user(),
+//     'admin' => auth()->guard('admin')->user(),
+//     'user' => auth()->guard('user')->user(),
+// ]);

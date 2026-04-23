@@ -191,7 +191,7 @@
                         <img src="{{ asset('tailadmin/src/images/user/user-01.jpg') }}" alt="User" />
                     </span>
 
-                    <span class="text-theme-sm mr-1 block font-medium"> {{ $user->last_name }} </span>
+                    <span class="text-theme-sm mr-1 block font-medium"> {{ $user->last_name ?? '-' }} </span>
 
                     <svg :class="dropdownOpen && 'rotate-180'" class="stroke-gray-500 dark:stroke-gray-400" width="18"
                         height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -206,11 +206,11 @@
 
                     <div>
                         <span class="text-theme-sm block font-medium text-gray-700 dark:text-gray-400">
-                            {{ $user->first_name . ' ' . $user->last_name }}
+                            {{ ($user?->first_name ?? '-') . ' ' . ($user?->last_name ?? '-') }}
                         </span>
 
                         <span class="text-theme-xs mt-0.5 block text-gray-500 dark:text-gray-400">
-                            {{ $user->email }}
+                            {{ $user->email ?? '-' }}
                         </span>
                     </div>
 

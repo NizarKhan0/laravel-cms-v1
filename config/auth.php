@@ -38,9 +38,14 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        // 'web' => [
+        //     'driver' => 'session',
+        //     'provider' => 'users',
+        // ],
+
+        'user' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'frontend_users',
         ],
         'admin' => [
             'driver' => 'session',
@@ -66,9 +71,14 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        // 'users' => [
+        //     'driver' => 'eloquent',
+        //     'model' => env('AUTH_MODEL', User::class),
+        // ],
+
+        'frontend_users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', User::class),
+            'model' => env('AUTH_FRONTEND_USER_MODEL', App\Models\backendUser\FrontendUser::class),
         ],
 
         'backend_users' => [
@@ -102,12 +112,20 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        // 'users' => [
+        //     'provider' => 'users',
+        //     'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+        //     'expire' => 60,
+        //     'throttle' => 60,
+        // ],
+
+        'user' => [
+            'provider' => 'frontend_users',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
             'expire' => 60,
             'throttle' => 60,
         ],
+
         'admin' => [
             'provider' => 'backend_users',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
