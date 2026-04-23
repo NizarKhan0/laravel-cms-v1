@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Observers\ActivityObserver;
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Support\ServiceProvider;
+use Spatie\Activitylog\Models\Activity;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Activity::observe(ActivityObserver::class);
 
         //override lobal sendemail guard admin
         // ResetPassword::createUrlUsing(function ($notifiable, $token) {

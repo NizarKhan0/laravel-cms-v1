@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\Notifications\ResetPassword;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 
 #[Table('frontend_users')]
@@ -32,7 +35,7 @@ use Illuminate\Auth\Notifications\ResetPassword;
 ])]
 class FrontendUser extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, LogsActivity;
 
     protected function casts(): array
     {
@@ -56,5 +59,15 @@ class FrontendUser extends Authenticatable implements MustVerifyEmail
         });
 
         $this->notify(new ResetPassword($token));
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['username', 'email', 'first_name', 'last_name', 'is_active']) //utk log hanya username dan email
+            // ->logFillable() // utk log semua field fillable
+            ->useLogName('Backend User') // utk log name
+            ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName}") // utk log description
+            ->dontLogEmptyChanges();
     }
 }

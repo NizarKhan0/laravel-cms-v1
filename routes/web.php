@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\backendUser\BackendUserController;
+use App\Http\Controllers\backendUser\ActivityLogController;
 use App\Http\Controllers\backendUser\FrontendUserController;
 use App\Http\Controllers\backendUser\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\backendUser\Auth\EmailVerificationController;
@@ -8,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Models\backendUser\BackendUser;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -165,5 +168,9 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
         Route::put('/frontend-user/{id}', 'update')->name('frontend-user.update');
         Route::delete('/frontend-user/{id}', 'destroy')->name('frontend-user.destroy');
     });
+
+    // Activity Log: view and API (requires admin auth)
+    Route::get('/activity-log', [ActivityLogController::class, 'indexView'])->name('activity-log.index');
+    // Route::get('/api/activity-logs', [ActivityLogController::class, 'indexApi'])->name('activity-log.api');
 
 });

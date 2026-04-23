@@ -2,15 +2,17 @@
 
 namespace App\Models\backendUser;
 
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\Table;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Auth\Notifications\ResetPassword;
-
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 #[Table('backend_users')]
 #[Fillable([
@@ -32,7 +34,7 @@ use Illuminate\Auth\Notifications\ResetPassword;
 ])]
 class BackendUser extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, LogsActivity;
 
     protected function casts(): array
     {
@@ -44,7 +46,6 @@ class BackendUser extends Authenticatable implements MustVerifyEmail
             'is_active' => 'boolean',
         ];
     }
-
     // override per-model sendemail
     public function sendPasswordResetNotification($token)
     {
@@ -56,5 +57,15 @@ class BackendUser extends Authenticatable implements MustVerifyEmail
         });
 
         $this->notify(new ResetPassword($token));
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['username', 'email', 'first_name', 'last_name', 'is_active']) //utk log hanya username dan email
+            // ->logFillable() // utk log semua field fillable
+            ->useLogName('Backend User') // utk log name
+            ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName}") // utk log description
+            ->dontLogEmptyChanges();
     }
 }
