@@ -16,7 +16,6 @@ class UserMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-              // check user guard
         if (!Auth::guard('user')->check()) {
             return redirect()->route('user.login');
         }

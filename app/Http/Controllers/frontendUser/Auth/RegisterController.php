@@ -37,7 +37,8 @@ class RegisterController extends Controller
         ]);
 
         //auto login lepas register
-        Auth::guard('web')->login($user);
+        // Use the frontend user guard for login after registration
+        Auth::guard('user')->login($user);
 
         //return redirect
         return redirect()->route('user.dashboard');

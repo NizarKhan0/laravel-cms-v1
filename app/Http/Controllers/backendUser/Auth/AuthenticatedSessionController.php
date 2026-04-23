@@ -39,7 +39,7 @@ class AuthenticatedSessionController extends Controller
         if (Auth::guard('admin')->attempt($credentials, $request->boolean('remember'))) {
 
             $request->session()->regenerate();
-            
+
             // Update last login timestamp for the admin user without triggering activity log
             if ($admin = Auth::guard('admin')->user()) {
                 // Only set if the column exists in the model/table
@@ -48,7 +48,15 @@ class AuthenticatedSessionController extends Controller
                     $admin->updateQuietly(['last_login_at' => now()]);
                 }
             }
-            
+
+            //  dd(Auth::getDefaultDriver());
+            // dd([
+            //     'guard_admin' => Auth::guard('admin')->check(),
+            //     'admin_user' => Auth::guard('admin')->user(),
+            //     'guard_user' => Auth::guard('user')->check(),
+            //     'user_user' => Auth::guard('user')->user(),
+            // ]);
+
             return redirect()->intended('/admin/dashboard');
         }
 

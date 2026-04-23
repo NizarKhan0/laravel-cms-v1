@@ -20,9 +20,9 @@ class AdminMiddleware
         //kalau nak custom
         // check admin guard login
         if (!Auth::guard('admin')->check()) {
-            // return redirect('/admin/login');
-            return redirect()->route('admin.login');  // ← guna named route
+            return redirect()->route('admin.login');
         }
+
         return $next($request);
     }
 }

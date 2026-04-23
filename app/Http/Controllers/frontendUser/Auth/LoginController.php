@@ -31,14 +31,15 @@ class LoginController extends Controller
 
             $request->session()->regenerate();
 
-            // Update last login timestamp for the admin user without triggering activity log
-            if ($admin = Auth::guard('user')->user()) {
-                // Only set if the column exists in the model/table
-                if (in_array('last_login_at', array_keys($admin->getAttributes()))) {
-                    // Use updateQuietly to avoid logging and model events
-                    $admin->updateQuietly(['last_login_at' => now()]);
-                }
+        // Update last login timestamp for the frontend user without triggering activity log
+        if ($user = Auth::guard('user')->user()) {
+            // Only set if the column exists in the model/table
+            if (in_array('last_login_at', array_keys($user->getAttributes()))) {
+                // Use updateQuietly to avoid logging and model events
+                $user->updateQuietly(['last_login_at' => now()]);
             }
+        }
+        // dd(Auth::getDefaultDriver());
 
             return redirect()->intended('/user/dashboard');
         }
@@ -50,7 +51,8 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::guard('web')->logout();
+        // Logout from the frontend user guard
+        Auth::guard('user')->logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

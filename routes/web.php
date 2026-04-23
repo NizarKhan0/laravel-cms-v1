@@ -190,7 +190,9 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
 //auto redirect ke login user bila /user
 Route::get('/user', function () {
-    return redirect()->route('user.login');
+    return Auth::guard('user')->check()
+        ? redirect()->route('user.dashboard')
+        : redirect()->route('user.login');
 });
 
 Route::prefix('user')->group(function () {
