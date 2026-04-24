@@ -45,6 +45,8 @@ class UserRequest extends FormRequest
             'last_name' => 'required|string',
             'is_active' => 'nullable|boolean',
             'send_verification_email' => 'nullable|boolean',
+            'roles' => 'nullable|array',
+            'roles.*' => 'string|exists:roles,name',
         ];
     }
 

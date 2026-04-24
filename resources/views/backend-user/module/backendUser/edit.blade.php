@@ -2,6 +2,10 @@
 
 @section('title', 'Edit Backend User')
 
+@push('styles')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endpush
+
 @section('content')
     <!-- Breadcrumb Start -->
     <div x-data="{ pageName: `Edit Backend User` }" class="mb-6">
@@ -159,6 +163,32 @@
                                         </span>
                                     </p>
                                 </div>
+
+                                <div>
+                                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                        Roles
+                                    </label>
+                                    <select name="roles[]" multiple
+                                        class="js-role-select dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 min-h-24 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 @error('roles') border-error-300 @enderror @error('roles.*') border-error-300 @enderror">
+                                        @php
+                                            $selectedRoles = old('roles', $backendUsers->roles->pluck('name')->toArray());
+                                        @endphp
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->name }}" @selected(in_array($role->name, $selectedRoles, true))>
+                                                {{ $role->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <p class="text-theme-xs text-gray-500 dark:text-gray-400 mt-1.5">
+                                        Hold Ctrl (Windows) / Command (Mac) to choose multiple roles.
+                                    </p>
+                                    @error('roles')
+                                        <p class="text-theme-xs text-error-500 mt-1.5">{{ $message }}</p>
+                                    @enderror
+                                    @error('roles.*')
+                                        <p class="text-theme-xs text-error-500 mt-1.5">{{ $message }}</p>
+                                    @enderror
+                                </div>
                             </div>
 
                             <!-- Form Actions -->
@@ -203,3 +233,21 @@
         }
     </script>
 @endsection
+
+@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const $roleSelect = $('.js-role-select');
+
+            if ($roleSelect.length) {
+                $roleSelect.select2({
+                    width: '100%',
+                    placeholder: 'Select roles',
+                    closeOnSelect: false
+                });
+            }
+        });
+    </script>
+@endpush

@@ -2,6 +2,10 @@
 
 @section('title', 'Create Backend User')
 
+@push('styles')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endpush
+
 @section('content')
 
 <!-- Breadcrumb Start -->
@@ -110,6 +114,30 @@
                         class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900">
                 </div>
 
+                <!-- ROLES -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1.5">
+                        Roles
+                    </label>
+                    <select name="roles[]" multiple
+                        class="js-role-select w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900 @error('roles') border-red-500 @enderror @error('roles.*') border-red-500 @enderror">
+                        @foreach ($roles as $role)
+                            <option value="{{ $role->name }}" @selected(in_array($role->name, old('roles', []), true))>
+                                {{ $role->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <p class="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                        Hold Ctrl (Windows) / Command (Mac) to choose multiple roles.
+                    </p>
+                    @error('roles')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                    @error('roles.*')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <!-- 🔥 NEW FIELD: EMAIL VERIFICATION TOGGLE -->
                 <div class="flex items-start gap-3 pt-2">
                     <div>
@@ -148,3 +176,21 @@
 </div>
 
 @endsection
+
+@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const $roleSelect = $('.js-role-select');
+
+            if ($roleSelect.length) {
+                $roleSelect.select2({
+                    width: '100%',
+                    placeholder: 'Select roles',
+                    closeOnSelect: false
+                });
+            }
+        });
+    </script>
+@endpush

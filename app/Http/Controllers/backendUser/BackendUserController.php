@@ -7,6 +7,7 @@ use App\Http\Requests\backendUser\UserRequest;
 use App\Models\backendUser\BackendUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 // use Illuminate\Auth\Events\Registered;
 
 class BackendUserController extends Controller
@@ -16,7 +17,7 @@ class BackendUserController extends Controller
      */
     public function index()
     {
-        $backendUsers = BackendUser::orderBy('created_at', 'desc')->paginate(10);
+        $backendUsers = BackendUser::with('roles')->orderBy('created_at', 'desc')->paginate(10);
 
         return view(
             'backend-user.module.backendUser.index',
@@ -31,8 +32,13 @@ class BackendUserController extends Controller
      */
     public function create()
     {
+        $roles = Role::query()->where('guard_name', 'admin')->orderBy('name')->get();
+
         return view(
-            'backend-user.module.backendUser.create'
+            'backend-user.module.backendUser.create',
+            [
+                'roles' => $roles,
+            ]
         );
     }
 
@@ -51,6 +57,8 @@ class BackendUserController extends Controller
             'last_name' => $request->last_name,
             'is_active' => $request->is_active ?? 1,
         ]);
+
+        $user->syncRoles($request->input('roles', []));
 
         // OPTIONAL: send verification email
         if ($request->send_verification_email) {
@@ -83,11 +91,13 @@ class BackendUserController extends Controller
     public function edit($id)
     {
         $backendUsers = BackendUser::findOrFail($id);
+        $roles = Role::query()->where('guard_name', 'admin')->orderBy('name')->get();
 
         return view(
             'backend-user.module.backendUser.edit',
             [
-                'backendUsers' => $backendUsers
+                'backendUsers' => $backendUsers,
+                'roles' => $roles,
             ]
         );
     }
@@ -112,6 +122,7 @@ class BackendUserController extends Controller
         }
 
         $backendUsers->update($data);
+        $backendUsers->syncRoles($request->input('roles', []));
 
         flash()->use('theme.ios')->success('User updated successfully!');
 

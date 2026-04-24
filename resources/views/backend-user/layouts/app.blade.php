@@ -10,6 +10,7 @@
     <title>CMS - @yield('title')</title>
     <link rel="icon" href="favicon.ico">
     <link href="{{ asset('tailadmin/build/style.css') }}" rel="stylesheet">
+    @stack('styles')
     <style>
         .fl-wrapper[data-position^=top-] {
             top: 85px !important; /* Push flasher down below the sticky header */
@@ -66,6 +67,7 @@
     </div>
     <!-- ===== Page Wrapper End ===== -->
     <script defer src="{{ asset('tailadmin/build/bundle.js') }}"></script>
+    @stack('scripts')
 </body>
 
 </html>

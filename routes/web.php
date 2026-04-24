@@ -151,13 +151,13 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     // backend-user CRUD
     Route::controller(BackendUserController::class)->group(function () {
 
-        Route::get('/backend-user', 'index')->name('backend-user.index');
-        Route::get('/backend-user/create', 'create')->name('backend-user.create');
-        Route::post('/backend-user', 'store')->name('backend-user.store');
-        Route::get('/backend-user/{id}', 'show')->name('backend-user.show');
-        Route::get('/backend-user/{id}/edit', 'edit')->name('backend-user.edit');
-        Route::put('/backend-user/{id}', 'update')->name('backend-user.update');
-        Route::delete('/backend-user/{id}', 'destroy')->name('backend-user.destroy');
+        Route::get('/backend-user', 'index')->middleware('permission:backend-user.view,admin')->name('backend-user.index');
+        Route::get('/backend-user/create', 'create')->middleware('permission:backend-user.create,admin')->name('backend-user.create');
+        Route::post('/backend-user', 'store')->middleware('permission:backend-user.create,admin')->name('backend-user.store');
+        Route::get('/backend-user/{id}', 'show')->middleware('permission:backend-user.view,admin')->name('backend-user.show');
+        Route::get('/backend-user/{id}/edit', 'edit')->middleware('permission:backend-user.update,admin')->name('backend-user.edit');
+        Route::put('/backend-user/{id}', 'update')->middleware('permission:backend-user.update,admin')->name('backend-user.update');
+        Route::delete('/backend-user/{id}', 'destroy')->middleware('permission:backend-user.delete,admin')->name('backend-user.destroy');
 
         // Admin profile (current user) edit
         Route::get('/profile/edit', 'editProfile')->name('admin.profile.edit');
@@ -177,7 +177,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     });
 
     // Activity Log: view and API (requires admin auth)
-    Route::get('/activity-log', [ActivityLogController::class, 'indexView'])->name('activity-log.index');
+    Route::get('/activity-log', [ActivityLogController::class, 'indexView'])->middleware('permission:activity-log.view,admin')->name('activity-log.index');
     // Route::get('/api/activity-logs', [ActivityLogController::class, 'indexApi'])->name('activity-log.api');
 
 });
