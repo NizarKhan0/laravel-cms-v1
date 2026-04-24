@@ -9,6 +9,7 @@ class UserController extends Controller
 {
     public function index()
     {
+        // dd(auth()->guard()->name);
         return view('frontend-user.module.dashboard');
     }
 }

@@ -41,7 +41,7 @@ class FrontendUserSeeder extends Seeder
         activity()
             ->causedBy($frontendUser)
             ->tap(function (Activity $activity) use ($frontendUser) {
-                $activity->log_name = 'Bcakend User Seeder';
+                $activity->log_name = 'Backend User Seeder';
                 $activity->subject_type = 'App\Models\backendUser\FrontendUser';
                 $activity->subject_id = $frontendUser->id;
                 $activity->event = 'seeded';

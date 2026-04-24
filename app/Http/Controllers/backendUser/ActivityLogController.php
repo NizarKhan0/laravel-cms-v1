@@ -12,6 +12,7 @@ class ActivityLogController extends Controller
     // Show logs in a Blade view (for admin/backend users)
     public function indexView(Request $request)
     {
+        //  dd(auth()->guard()->name);
         // Retrieve activity logs with causer relation for readability
         $activities = Activity::with('causer')->latest()->paginate(10);
         // Return the existing blade in the project

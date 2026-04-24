@@ -1,9 +1,58 @@
-<header class="bg-white shadow-sm">
-    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-        <div class="text-lg font-semibold">{{ config('app.name', 'Laravel') }}</div>
-        <nav>
-            <a href="{{ route('frontend.dashboard') }}" class="text-sm text-gray-700 mr-4">Dashboard</a>
-            <a href="{{ route('frontend.login') }}" class="text-sm text-gray-700">Login</a>
-        </nav>
+<header class="sticky top-0 bg-white/90 backdrop-blur border-b z-20">
+
+    <div class="flex justify-between items-center px-4 md:px-8 py-4">
+
+        <div class="flex items-center gap-4">
+
+            <!-- Mobile Menu -->
+            <button @click="sidebar=true" class="lg:hidden p-2 rounded-xl border">
+
+                <i class="fa-solid fa-bars text-lg"></i>
+
+            </button>
+
+        </div>
+
+        <!-- Profile -->
+        <div class="relative">
+
+            <button @click="profile=!profile"
+                class="flex items-center gap-3 border rounded-2xl px-4 py-2 shadow-sm hover:bg-zinc-50">
+
+                <div class="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-semibold">
+                    N
+                </div>
+
+                <span class="hidden md:block">
+                    Nizar
+                </span>
+
+            </button>
+
+            <!-- Dropdown -->
+            <div x-show="profile" @click.away="profile=false" x-transition
+                class="absolute right-0 mt-3 w-52 bg-white rounded-2xl shadow-xl border p-2">
+
+                <a href="#" class="flex items-center gap-2 px-4 py-2 rounded-xl hover:bg-zinc-100">
+
+                    <i class="fa-regular fa-user"></i>
+
+                    Profile
+
+                </a>
+
+                <a href="#" class="flex items-center gap-2 px-4 py-2 rounded-xl text-red-500 hover:bg-red-50">
+
+                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    Logout
+
+                </a>
+
+            </div>
+
+        </div>
+
     </div>
+
 </header>
