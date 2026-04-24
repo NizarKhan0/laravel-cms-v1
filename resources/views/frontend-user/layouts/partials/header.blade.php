@@ -33,7 +33,7 @@
             <div x-show="profile" @click.away="profile=false" x-transition
                 class="absolute right-0 mt-3 w-52 bg-white rounded-2xl shadow-xl border p-2">
 
-                <a href="#" class="flex items-center gap-2 px-4 py-2 rounded-xl hover:bg-zinc-100">
+                <a href="{{ route('user.profile.edit') }}" class="flex items-center gap-2 px-4 py-2 rounded-xl hover:bg-zinc-100">
 
                     <i class="fa-regular fa-user"></i>
 
@@ -41,13 +41,13 @@
 
                 </a>
 
-                <a href="#" class="flex items-center gap-2 px-4 py-2 rounded-xl text-red-500 hover:bg-red-50">
-
-                    <i class="fa-solid fa-right-from-bracket"></i>
-
-                    Logout
-
-                </a>
+                <form method="POST" action="{{ route('user.logout') }}">
+                    @csrf
+                    <button type="submit" class="w-full flex items-center gap-2 px-4 py-2 rounded-xl text-red-500 hover:bg-red-50">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Logout
+                    </button>
+                </form>
 
             </div>
 

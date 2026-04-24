@@ -40,7 +40,8 @@ class RegisterController extends Controller
         // Use the frontend user guard for login after registration
         Auth::guard('user')->login($user);
 
-        //return redirect
-        return redirect()->route('user.dashboard');
+        $user->sendEmailVerificationNotification();
+
+        return redirect()->route('user.verification.notice');
     }
 }

@@ -21,7 +21,7 @@ lg:translate-x-0">
 
     <nav class="p-4 space-y-2">
 
-        <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-black text-white shadow-sm">
+        <a href="{{ route('user.dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-black text-white shadow-sm">
 
             <i class="fa-solid fa-table-cells-large text-lg"></i>
 
@@ -33,7 +33,7 @@ lg:translate-x-0">
 
             <i class="fa-regular fa-file-lines text-lg"></i>
 
-            My Records
+            Module
 
         </a>
 

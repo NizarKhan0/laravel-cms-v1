@@ -15,11 +15,11 @@
         @if (session('status') == 'verification-link-sent')
             <div class="mb-4 text-green-600 bg-green-50 border border-green-200 p-3 rounded-lg">A new verification link has been sent to your email.</div>
         @endif
-        <form method="POST" action="{{ route('frontend.verification.resend') }}">
+        <form method="POST" action="{{ route('user.verification.resend') }}">
             @csrf
             <button class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 rounded-lg">Resend Verification Email</button>
         </form>
-        <form method="POST" action="{{ route('frontend.logout') }}" class="mt-4">
+        <form method="POST" action="{{ route('user.logout') }}" class="mt-4">
             @csrf
             <button class="text-sm text-gray-500 hover:underline">Logout</button>
         </form>

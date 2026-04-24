@@ -48,12 +48,10 @@
                         class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
                     <span class="ml-2 text-sm text-gray-600">Remember me</span>
                 </label>
-                {{-- @if (Route::has('frontend.password.request'))
-                <a href="{{ route('frontend.password.request') }}"
+                @if (Route::has('user.password.request'))
+                <a href="{{ route('user.password.request') }}"
                     class="text-sm text-indigo-600 hover:underline">Forgot password?</a>
-                @endif --}}
-
-                <a href="#" class="text-sm text-indigo-600 hover:underline">Forgot password?</a>
+                @endif
 
             </div>
 

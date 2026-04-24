@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Support\Facades\URL;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Activitylog\Support\LogOptions;
@@ -54,13 +56,29 @@ class FrontendUser extends Authenticatable implements MustVerifyEmail
     public function sendPasswordResetNotification($token)
     {
         ResetPassword::createUrlUsing(function ($notifiable, $token) {
-            return route('frontend.password.reset', [
+            return route('user.password.reset', [
                 'token' => $token,
                 'email' => $notifiable->email,
             ]);
         });
 
         $this->notify(new ResetPassword($token));
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        VerifyEmail::createUrlUsing(function ($notifiable) {
+            return URL::temporarySignedRoute(
+                'user.verification.verify',
+                now()->addMinutes(60),
+                [
+                    'id' => $notifiable->getKey(),
+                    'hash' => sha1($notifiable->getEmailForVerification()),
+                ]
+            );
+        });
+
+        $this->notify(new VerifyEmail());
     }
 
     public function getActivitylogOptions(): LogOptions

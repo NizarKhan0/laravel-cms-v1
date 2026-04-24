@@ -5,6 +5,7 @@ use App\Http\Controllers\backendUser\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\backendUser\Auth\EmailVerificationController;
 use App\Http\Controllers\backendUser\BackendUserController;
 use App\Http\Controllers\backendUser\FrontendUserController;
+use App\Http\Controllers\frontendUser\Auth\VerifyEmailController;
 use App\Http\Controllers\frontendUser\Auth\LoginController;
 use App\Http\Controllers\frontendUser\Auth\RegisterController;
 use App\Http\Controllers\frontendUser\UserController;
@@ -203,6 +204,12 @@ Route::prefix('user')->group(function () {
     //Login
     Route::get('/login', [LoginController::class, 'login'])->name('user.login');
     Route::post('/login', [LoginController::class, 'loginSubmit'])->name('user.login.submit');
+
+    // Forgot / Reset Password
+    Route::get('/forgot-password', [LoginController::class, 'forgotPassword'])->name('user.password.request');
+    Route::post('/forgot-password', [LoginController::class, 'sendResetLink'])->name('user.password.email');
+    Route::get('/reset-password/{token}', [LoginController::class, 'resetPasswordForm'])->name('user.password.reset');
+    Route::post('/reset-password', [LoginController::class, 'resetPassword'])->name('user.password.update');
 });
 
 
@@ -215,6 +222,19 @@ Route::prefix('user')->group(function () {
 Route::prefix('user')->middleware('auth:user')->group(function () {
     //Logout
     Route::post('/logout', [LoginController::class, 'logout'])->name('user.logout');
+
+    // Email Verification
+    Route::get('/email/verify', [VerifyEmailController::class, 'notice'])
+        ->name('user.verification.notice');
+    Route::post('/email/verification-notification', [VerifyEmailController::class, 'resend'])
+        ->middleware('throttle:6,1')
+        ->name('user.verification.resend');
+    Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, 'verify'])
+        ->middleware(['signed'])
+        ->name('user.verification.verify');
+
+    Route::get('/profile/edit', [UserController::class, 'editProfile'])->name('user.profile.edit');
+    Route::put('/profile', [UserController::class, 'updateProfile'])->name('user.profile.update');
 
     //FrontendUser
     Route::get('/dashboard', [UserController::class, 'index'])->name('user.dashboard');

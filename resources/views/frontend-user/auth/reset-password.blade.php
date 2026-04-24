@@ -9,7 +9,7 @@
 <body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen flex items-center justify-center">
     <div class="w-full max-w-md bg-white shadow-md rounded-lg p-6 border border-gray-200">
         <h2 class="text-xl font-semibold mb-4">Reset Password</h2>
-        <form method="POST" action="{{ route('frontend.password.update') }}">
+        <form method="POST" action="{{ route('user.password.update') }}">
             @csrf
             <input type="hidden" name="token" value="{{ $token }}">
             <div class="mb-4">

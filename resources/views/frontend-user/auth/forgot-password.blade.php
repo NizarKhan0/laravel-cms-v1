@@ -12,7 +12,7 @@
         @if (session('status'))
             <div class="mb-4 text-sm text-green-600">{{ session('status') }}</div>
         @endif
-        <form method="POST" action="{{ route('frontend.password.email') }}">
+        <form method="POST" action="{{ route('user.password.email') }}">
             @csrf
             <div class="mb-4">
                 <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
