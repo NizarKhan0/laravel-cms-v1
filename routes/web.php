@@ -169,13 +169,13 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     // frontend-user CRUD
     Route::controller(FrontendUserController::class)->group(function () {
 
-        Route::get('/frontend-user', 'index')->name('frontend-user.index');
-        Route::get('/frontend-user/create', 'create')->name('frontend-user.create');
-        Route::post('/frontend-user', 'store')->name('frontend-user.store');
-        Route::get('/frontend-user/{id}', 'show')->name('frontend-user.show');
-        Route::get('/frontend-user/{id}/edit', 'edit')->name('frontend-user.edit');
-        Route::put('/frontend-user/{id}', 'update')->name('frontend-user.update');
-        Route::delete('/frontend-user/{id}', 'destroy')->name('frontend-user.destroy');
+        Route::get('/frontend-user', 'index')->middleware('permission:frontend-user.view,admin')->name('frontend-user.index');
+        Route::get('/frontend-user/create', 'create')->middleware('permission:frontend-user.create,admin')->name('frontend-user.create');
+        Route::post('/frontend-user', 'store')->middleware('permission:frontend-user.create,admin')->name('frontend-user.store');
+        Route::get('/frontend-user/{id}', 'show')->middleware('permission:frontend-user.view,admin')->name('frontend-user.show');
+        Route::get('/frontend-user/{id}/edit', 'edit')->middleware('permission:frontend-user.update,admin')->name('frontend-user.edit');
+        Route::put('/frontend-user/{id}', 'update')->middleware('permission:frontend-user.update,admin')->name('frontend-user.update');
+        Route::delete('/frontend-user/{id}', 'destroy')->middleware('permission:frontend-user.delete,admin')->name('frontend-user.destroy');
     });
 
     // Activity Log: view and API (requires admin auth)

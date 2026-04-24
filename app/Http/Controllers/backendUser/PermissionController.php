@@ -11,12 +11,20 @@ class PermissionController extends Controller
 {
     public function index(Request $request)
     {
-        // Allow filtering by guard_name via query param, default to 'admin'
-        $guard = $request->get('guard_name', 'admin');
-        $permissions = Permission::query()
-            ->where('guard_name', $guard)
+        // optional filter by guard
+        $guard = $request->get('guard_name');
+
+        $permissions = Permission::query();
+
+        // kalau pilih guard tertentu, filter
+        if (!empty($guard)) {
+            $permissions->where('guard_name', $guard);
+        }
+
+        $permissions = $permissions
             ->orderBy('name')
-            ->paginate(15);
+            ->paginate(10)
+            ->appends($request->query());
 
         $guards = array_keys(config('auth.guards'));
 
@@ -30,6 +38,7 @@ class PermissionController extends Controller
     public function create()
     {
         $guards = array_keys(config('auth.guards'));
+
         return view('backend-user.module.permission.create', [
             'guards' => $guards,
         ]);
@@ -37,10 +46,13 @@ class PermissionController extends Controller
 
     public function store(Request $request)
     {
-        $guardName = $request->input('guard_name', 'admin');
+        $guards = array_keys(config('auth.guards'));
+
+        $guardName = $request->input('guard_name');
+
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:permissions,name,NULL,id,guard_name,' . $guardName,
-            'guard_name' => 'required|string|in:' . implode(',', array_keys(config('auth.guards'))),
+            'guard_name' => 'required|string|in:' . implode(',', $guards),
         ]);
 
         Permission::create([
@@ -49,6 +61,7 @@ class PermissionController extends Controller
         ]);
 
         app(PermissionRegistrar::class)->forgetCachedPermissions();
+
         flash()->use('theme.ios')->success('Permission created successfully!');
 
         return redirect()->route('permissions.index');
@@ -56,9 +69,8 @@ class PermissionController extends Controller
 
     public function edit(int $id)
     {
-        $permission = Permission::query()
-            ->where('guard_name', 'admin')
-            ->findOrFail($id);
+        $permission = Permission::findOrFail($id);
+
         $guards = array_keys(config('auth.guards'));
 
         return view('backend-user.module.permission.edit', [
@@ -69,14 +81,18 @@ class PermissionController extends Controller
 
     public function update(Request $request, int $id)
     {
-        $permission = Permission::query()
-            ->where('guard_name', 'admin')
-            ->findOrFail($id);
+        $permission = Permission::findOrFail($id);
+
         $guards = array_keys(config('auth.guards'));
+
         $guardName = $request->input('guard_name', $permission->guard_name);
 
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:permissions,name,' . $permission->id . ',id,guard_name,' . $guardName,
+            'name' => 'required|string|max:255|unique:permissions,name,' .
+                $permission->id .
+                ',id,guard_name,' .
+                $guardName,
+
             'guard_name' => 'required|string|in:' . implode(',', $guards),
         ]);
 
@@ -86,6 +102,7 @@ class PermissionController extends Controller
         ]);
 
         app(PermissionRegistrar::class)->forgetCachedPermissions();
+
         flash()->use('theme.ios')->success('Permission updated successfully!');
 
         return redirect()->route('permissions.index');
@@ -93,20 +110,21 @@ class PermissionController extends Controller
 
     public function destroy(int $id)
     {
-        $permission = Permission::query()
-            ->where('guard_name', 'admin')
-            ->findOrFail($id);
+        $permission = Permission::findOrFail($id);
 
         $protected = [
             'backend-user.view',
             'backend-user.create',
             'backend-user.update',
             'backend-user.delete',
+
             'activity-log.view',
+
             'role.view',
             'role.create',
             'role.update',
             'role.delete',
+
             'permission.view',
             'permission.create',
             'permission.update',
@@ -114,14 +132,21 @@ class PermissionController extends Controller
         ];
 
         if (in_array($permission->name, $protected, true)) {
-            flash()->use('theme.ios')->error('Core permission cannot be deleted.');
+
+            flash()
+                ->use('theme.ios')
+                ->error('Core permission cannot be deleted.');
+
             return redirect()->route('permissions.index');
         }
 
         $permission->delete();
+
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-        flash()->use('theme.ios')->success('Permission deleted successfully.');
+        flash()
+            ->use('theme.ios')
+            ->success('Permission deleted successfully.');
 
         return redirect()->route('permissions.index');
     }

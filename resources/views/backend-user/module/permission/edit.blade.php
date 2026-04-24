@@ -24,7 +24,7 @@
                     <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Guard</label>
                     <select name="guard_name" class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm dark:border-gray-700 dark:bg-gray-900">
                         @foreach ($guards ?? [ $permission->guard_name ] as $guard)
-                            <option value="{{ $guard }}" @selected($permission->guard_name == $guard)>{{ $guard }}</option>
+                            <option value="{{ $guard }}" @selected(old('guard_name', $permission->guard_name) == $guard)>{{ $guard }}</option>
                         @endforeach
                     </select>
                 </div>

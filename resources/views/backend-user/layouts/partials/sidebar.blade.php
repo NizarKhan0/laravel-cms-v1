@@ -152,10 +152,10 @@
                         <a href="{{ route('admin.dashboard') }}"
                             @click="selected = (selected === 'Dashboard' ? '':'Dashboard')" class="menu-item group"
                             :class="(selected === 'Dashboard') && (page === 'dashboard') ? 'menu-item-active' :
-                                                            'menu-item-inactive'">
+                            'menu-item-inactive'">
                             <svg :class="(selected === 'Dashboard') && (page === 'dashboard') ? 'menu-item-icon-active' :
-                                                            'menu-item-icon-inactive'" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            'menu-item-icon-inactive'" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
                                     d="M5.5 3.25C4.25736 3.25 3.25 4.25736 3.25 5.5V8.99998C3.25 10.2426 4.25736 11.25 5.5 11.25H9C10.2426 11.25 11.25 10.2426 11.25 8.99998V5.5C11.25 4.25736 10.2426 3.25 9 3.25H5.5ZM4.75 5.5C4.75 5.08579 5.08579 4.75 5.5 4.75H9C9.41421 4.75 9.75 5.08579 9.75 5.5V8.99998C9.75 9.41419 9.41421 9.74998 9 9.74998H5.5C5.08579 9.74998 4.75 9.41419 4.75 8.99998V5.5ZM5.5 12.75C4.25736 12.75 3.25 13.7574 3.25 15V18.5C3.25 19.7426 4.25736 20.75 5.5 20.75H9C10.2426 20.75 11.25 19.7427 11.25 18.5V15C11.25 13.7574 10.2426 12.75 9 12.75H5.5ZM4.75 15C4.75 14.5858 5.08579 14.25 5.5 14.25H9C9.41421 14.25 9.75 14.5858 9.75 15V18.5C9.75 18.9142 9.41421 19.25 9 19.25H5.5C5.08579 19.25 4.75 18.9142 4.75 18.5V15ZM12.75 5.5C12.75 4.25736 13.7574 3.25 15 3.25H18.5C19.7426 3.25 20.75 4.25736 20.75 5.5V8.99998C20.75 10.2426 19.7426 11.25 18.5 11.25H15C13.7574 11.25 12.75 10.2426 12.75 8.99998V5.5ZM15 4.75C14.5858 4.75 14.25 5.08579 14.25 5.5V8.99998C14.25 9.41419 14.5858 9.74998 15 9.74998H18.5C18.9142 9.74998 19.25 9.41419 19.25 8.99998V5.5C19.25 5.08579 18.9142 4.75 18.5 4.75H15ZM15 12.75C13.7574 12.75 12.75 13.7574 12.75 15V18.5C12.75 19.7426 13.7574 20.75 15 20.75H18.5C19.7426 20.75 20.75 19.7427 20.75 18.5V15C20.75 13.7574 19.7426 12.75 18.5 12.75H15ZM14.25 15C14.25 14.5858 14.5858 14.25 15 14.25H18.5C18.9142 14.25 19.25 14.5858 19.25 15V18.5C19.25 18.9142 18.9142 19.25 18.5 19.25H15C14.5858 19.25 14.25 18.9142 14.25 18.5V15Z"
                                     fill="" />
@@ -170,32 +170,91 @@
 
                     <!-- Menu Item Activity Log -->
                     @can('activity-log.view')
-                    <li>
-                        <a href="{{ route('activity-log.index') }}"
-                            @click="selected = (selected === 'Activity Log' ? '' : 'Activity Log')"
-                            class="menu-item group" :class="(selected === 'Activity Log') && (page === 'activity-log')
-            ? 'menu-item-active'
-            : 'menu-item-inactive'">
+                        <li>
+                            <a href="{{ route('activity-log.index') }}"
+                                @click="selected = (selected === 'Activity Log' ? '' : 'Activity Log')"
+                                class="menu-item group" :class="(selected === 'Activity Log') && (page === 'activity-log') ?
+                                    'menu-item-active' :
+                                    'menu-item-inactive'">
 
-                            <!-- Icon -->
-                            <svg :class="(selected === 'Activity Log') && (page === 'activity-log')
-                ? 'menu-item-icon-active'
-                : 'menu-item-icon-inactive'" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                                <!-- Icon -->
+                                <svg :class="(selected === 'Activity Log') && (page === 'activity-log') ?
+                                    'menu-item-icon-active' :
+                                    'menu-item-icon-inactive'" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
 
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M6 3.75C4.75736 3.75 3.75 4.75736 3.75 6V18C3.75 19.2426 4.75736 20.25 6 20.25H18C19.2426 20.25 20.25 19.2426 20.25 18V6C20.25 4.75736 19.2426 3.75 18 3.75H6ZM5.25 6C5.25 5.58579 5.58579 5.25 6 5.25H18C18.4142 5.25 18.75 5.58579 18.75 6V18C18.75 18.4142 18.4142 18.75 18 18.75H6C5.58579 18.75 5.25 18.4142 5.25 18V6ZM7.5 8.25C7.5 7.83579 7.83579 7.5 8.25 7.5H15.75C16.1642 7.5 16.5 7.83579 16.5 8.25C16.5 8.66421 16.1642 9 15.75 9H8.25C7.83579 9 7.5 8.66421 7.5 8.25ZM7.5 12C7.5 11.5858 7.83579 11.25 8.25 11.25H15.75C16.1642 11.25 16.5 11.5858 16.5 12C16.5 12.4142 16.1642 12.75 15.75 12.75H8.25C7.83579 12.75 7.5 12.4142 7.5 12ZM8.25 15.75C7.83579 15.75 7.5 16.0858 7.5 16.5C7.5 16.9142 7.83579 17.25 8.25 17.25H12C12.4142 17.25 12.75 16.9142 12.75 16.5C12.75 16.0858 12.4142 15.75 12 15.75H8.25Z"
-                                    fill="" />
-                            </svg>
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M6 3.75C4.75736 3.75 3.75 4.75736 3.75 6V18C3.75 19.2426 4.75736 20.25 6 20.25H18C19.2426 20.25 20.25 19.2426 20.25 18V6C20.25 4.75736 19.2426 3.75 18 3.75H6ZM5.25 6C5.25 5.58579 5.58579 5.25 6 5.25H18C18.4142 5.25 18.75 5.58579 18.75 6V18C18.75 18.4142 18.4142 18.75 18 18.75H6C5.58579 18.75 5.25 18.4142 5.25 18V6ZM7.5 8.25C7.5 7.83579 7.83579 7.5 8.25 7.5H15.75C16.1642 7.5 16.5 7.83579 16.5 8.25C16.5 8.66421 16.1642 9 15.75 9H8.25C7.83579 9 7.5 8.66421 7.5 8.25ZM7.5 12C7.5 11.5858 7.83579 11.25 8.25 11.25H15.75C16.1642 11.25 16.5 11.5858 16.5 12C16.5 12.4142 16.1642 12.75 15.75 12.75H8.25C7.83579 12.75 7.5 12.4142 7.5 12ZM8.25 15.75C7.83579 15.75 7.5 16.0858 7.5 16.5C7.5 16.9142 7.83579 17.25 8.25 17.25H12C12.4142 17.25 12.75 16.9142 12.75 16.5C12.75 16.0858 12.4142 15.75 12 15.75H8.25Z"
+                                        fill="" />
+                                </svg>
 
-                            <!-- Text -->
-                            <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
-                                Activity Log
-                            </span>
-                        </a>
-                    </li>
+                                <!-- Text -->
+                                <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                    Activity Log
+                                </span>
+                            </a>
+                        </li>
                     @endcan
                     <!-- End Menu Item Activity Log -->
+
+                    <!-- Menu Item Roles & Permissions -->
+                    @canany(['role.view', 'permission.view'])
+                        <li>
+                            <a href="#"
+                                @click.prevent="selected = (selected === 'RolesPermissions' ? '':'RolesPermissions')"
+                                class="menu-item group"
+                                :class="(selected === 'RolesPermissions') ? 'menu-item-active' : 'menu-item-inactive'">
+                                <svg :class="(selected === 'RolesPermissions') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
+                                    width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M12 2L3 7V12C3 17.25 6.75 22.13 12 23C17.25 22.13 21 17.25 21 12V7L12 2ZM12 4.18L19 8.3V12C19 16.35 16.05 20.36 12 21.18C7.95 20.36 5 16.35 5 12V8.3L12 4.18ZM10 15.5L7.5 13L6.09 14.41L10 18.33L18 10.33L16.59 8.92L10 15.5Z"
+                                        fill="" />
+                                </svg>
+
+                                <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                    Roles & Permissions
+                                </span>
+
+                                <svg class="menu-item-arrow" :class="[(selected === 'RolesPermissions') ? 'menu-item-arrow-active' :
+                                            'menu-item-arrow-inactive',
+                                            sidebarToggle ? 'lg:hidden' : ''
+                                        ]" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585" stroke="" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </a>
+
+                            <!-- Dropdown Menu Start -->
+                            <div class="overflow-hidden transform translate"
+                                :class="(selected === 'RolesPermissions') ? 'block' : 'hidden'">
+                                <ul :class="sidebarToggle ? 'lg:hidden' : 'flex'"
+                                    class="flex flex-col gap-1 mt-2 menu-dropdown pl-9">
+                                    @can('role.view')
+                                        <li>
+                                            <a href="{{ route('roles.index') }}" @click="page = 'roles'"
+                                                class="menu-dropdown-item group" :class="page === 'roles' ? 'menu-dropdown-item-active' :
+                                                            'menu-dropdown-item-inactive'">
+                                                Roles
+                                            </a>
+                                        </li>
+                                    @endcan
+                                    @can('permission.view')
+                                        <li>
+                                            <a href="{{ route('permissions.index') }}" @click="page = 'permissions'"
+                                                class="menu-dropdown-item group" :class="page === 'permissions' ? 'menu-dropdown-item-active' :
+                                                            'menu-dropdown-item-inactive'">
+                                                Permissions
+                                            </a>
+                                        </li>
+                                    @endcan
+                                </ul>
+                            </div>
+                            <!-- Dropdown Menu End -->
+                        </li>
+                    @endcanany
+                    <!-- Menu Item Roles & Permissions -->
 
                     <!-- Menu Item User Management -->
                     <li>
@@ -214,9 +273,11 @@
                                 User Management
                             </span>
 
-                            <svg class="menu-item-arrow" :class="[(selected === 'UserManagement') ? 'menu-item-arrow-active' : 'menu-item-arrow-inactive',
-                sidebarToggle ? 'lg:hidden' : ''
-            ]" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg class="menu-item-arrow" :class="[(selected === 'UserManagement') ? 'menu-item-arrow-active' :
+                                    'menu-item-arrow-inactive',
+                                    sidebarToggle ? 'lg:hidden' : ''
+                                ]" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
                                 <path d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585" stroke="" stroke-width="1.5"
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
@@ -235,15 +296,15 @@
                                 </li> --}}
                                 <li>
                                     <a href="{{ route('backend-user.index') }}" @click="page = 'backendUser'"
-                                        class="menu-dropdown-item group"
-                                        :class="page === 'backendUser' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                                        class="menu-dropdown-item group" :class="page === 'backendUser' ? 'menu-dropdown-item-active' :
+                                            'menu-dropdown-item-inactive'">
                                         Backend User
                                     </a>
                                 </li>
                                 <li>
                                     <a href="{{ route('frontend-user.index') }}" @click="page = 'frontendUser'"
-                                        class="menu-dropdown-item group"
-                                        :class="page === 'frontendUser' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                                        class="menu-dropdown-item group" :class="page === 'frontendUser' ? 'menu-dropdown-item-active' :
+                                            'menu-dropdown-item-inactive'">
                                         Frontend User
                                     </a>
                                 </li>
@@ -253,60 +314,6 @@
                     </li>
                     <!-- Menu Item User Management -->
 
-                    <!-- Menu Item Roles & Permissions -->
-                    @canany(['role.view', 'permission.view'])
-                    <li>
-                        <a href="#"
-                            @click.prevent="selected = (selected === 'RolesPermissions' ? '':'RolesPermissions')"
-                            class="menu-item group"
-                            :class="(selected === 'RolesPermissions') ? 'menu-item-active' : 'menu-item-inactive'">
-                            <svg :class="(selected === 'RolesPermissions') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
-                                width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M12 2L3 7V12C3 17.25 6.75 22.13 12 23C17.25 22.13 21 17.25 21 12V7L12 2ZM12 4.18L19 8.3V12C19 16.35 16.05 20.36 12 21.18C7.95 20.36 5 16.35 5 12V8.3L12 4.18ZM10 15.5L7.5 13L6.09 14.41L10 18.33L18 10.33L16.59 8.92L10 15.5Z"
-                                    fill="" />
-                            </svg>
-
-                            <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
-                                Roles & Permissions
-                            </span>
-
-                            <svg class="menu-item-arrow" :class="[(selected === 'RolesPermissions') ? 'menu-item-arrow-active' : 'menu-item-arrow-inactive',
-                sidebarToggle ? 'lg:hidden' : ''
-            ]" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585" stroke="" stroke-width="1.5"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </a>
-
-                        <!-- Dropdown Menu Start -->
-                        <div class="overflow-hidden transform translate"
-                            :class="(selected === 'RolesPermissions') ? 'block' : 'hidden'">
-                            <ul :class="sidebarToggle ? 'lg:hidden' : 'flex'"
-                                class="flex flex-col gap-1 mt-2 menu-dropdown pl-9">
-                                @can('role.view')
-                                    <li>
-                                        <a href="{{ route('roles.index') }}" @click="page = 'roles'" class="menu-dropdown-item group"
-                                            :class="page === 'roles' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
-                                            Roles
-                                        </a>
-                                    </li>
-                                @endcan
-                                @can('permission.view')
-                                    <li>
-                                        <a href="{{ route('permissions.index') }}" @click="page = 'permissions'" class="menu-dropdown-item group"
-                                            :class="page === 'permissions' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
-                                            Permissions
-                                        </a>
-                                    </li>
-                                @endcan
-                            </ul>
-                        </div>
-                        <!-- Dropdown Menu End -->
-                    </li>
-                    @endcanany
-                    <!-- Menu Item Roles & Permissions -->
                 </ul>
             </div>
 

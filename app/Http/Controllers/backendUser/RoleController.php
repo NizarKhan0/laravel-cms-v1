@@ -41,11 +41,12 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
-        // Determine guard to validate against (default to admin)
-        $guardName = $request->input('guard_name', 'admin');
+        // Determine available guards
+        $guards = array_keys(config('auth.guards'));
+        $guardName = $request->input('guard_name');
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:roles,name,NULL,id,guard_name,' . $guardName,
-            'guard_name' => 'required|string|in:' . implode(',', array_keys(config('auth.guards'))),
+            'guard_name' => 'required|string|in:' . implode(',', $guards),
             'permissions' => 'nullable|array',
             'permissions.*' => 'string|exists:permissions,name,guard_name,' . $guardName,
         ]);

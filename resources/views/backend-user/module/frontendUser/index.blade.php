@@ -35,15 +35,17 @@
                     <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">
                         All Frontend Users
                     </h3>
-                    <a href="{{ route('frontend-user.create') }}"
-                        class="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-theme-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
-                        <svg class="fill-current" width="18" height="18" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM2.615 16.428a1.224 1.224 0 0 1-.569-1.175 6.002 6.002 0 0 1 11.908 0c.058.467-.172.92-.57 1.174A9.953 9.953 0 0 1 8 18a9.953 9.953 0 0 1-5.385-1.572ZM16.25 5.75a.75.75 0 0 0-1.5 0v2h-2a.75.75 0 0 0 0 1.5h2v2a.75.75 0 0 0 1.5 0v-2h2a.75.75 0 0 0 0-1.5h-2v-2Z" />
-                        </svg>
-                        Create New User
-                    </a>
+                    @can('frontend-user.create')
+                        <a href="{{ route('frontend-user.create') }}"
+                            class="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-theme-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
+                            <svg class="fill-current" width="18" height="18" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM2.615 16.428a1.224 1.224 0 0 1-.569-1.175 6.002 6.002 0 0 1 11.908 0c.058.467-.172.92-.57 1.174A9.953 9.953 0 0 1 8 18a9.953 9.953 0 0 1-5.385-1.572ZM16.25 5.75a.75.75 0 0 0-1.5 0v2h-2a.75.75 0 0 0 0 1.5h2v2a.75.75 0 0 0 1.5 0v-2h2a.75.75 0 0 0 0-1.5h-2v-2Z" />
+                            </svg>
+                            Create New User
+                        </a>
+                    @endcan
                 </div>
 
                 <div class="rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.02]">
@@ -131,45 +133,51 @@
                                                 </td>
                                                 <td class="px-5 py-4">
                                                     <div class="flex items-center justify-end gap-2">
-                                                        <!-- View Button -->
-                                                        <a href="{{ route('frontend-user.show', $user->id) }}"
-                                                            class="inline-flex items-center justify-center rounded-lg bg-brand-50 p-2 text-brand-500 hover:bg-brand-100 dark:bg-brand-500/10 dark:text-brand-400 dark:hover:bg-brand-500/20"
-                                                            title="View User">
-                                                            <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18"
-                                                                fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                                    d="M9 4.5C5.5 4.5 2.5 6.5 1 9C2.5 11.5 5.5 13.5 9 13.5C12.5 13.5 15.5 11.5 17 9C15.5 6.5 12.5 4.5 9 4.5ZM9 12C7.5 12 6.5 11 6.5 9.5C6.5 8 7.5 7 9 7C10.5 7 11.5 8 11.5 9.5C11.5 11 10.5 12 9 12Z"
-                                                                    fill=""></path>
-                                                            </svg>
-                                                        </a>
-                                                        <!-- Edit Button -->
-                                                        <a href="{{ route('frontend-user.edit', $user->id) }}"
-                                                            class="inline-flex items-center justify-center rounded-lg bg-warning-50 p-2 text-warning-500 hover:bg-warning-100 dark:bg-warning-500/10 dark:text-warning-400 dark:hover:bg-warning-500/20"
-                                                            title="Edit User">
-                                                            <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18"
-                                                                fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                                    d="M13.5 2.5L15.5 4.5L5 15H3V13L13.5 2.5ZM14.5 1.5L12.5 3.5L14.5 5.5L16.5 3.5L14.5 1.5Z"
-                                                                    fill=""></path>
-                                                            </svg>
-                                                        </a>
-                                                        <!-- Delete Button -->
-                                                        <form action="{{ route('frontend-user.destroy', $user->id) }}"
-                                                            method="POST" class="inline delete-form">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit"
-                                                                class="inline-flex items-center justify-center rounded-lg bg-error-50 p-2 text-error-500 hover:bg-error-100 dark:bg-error-500/10 dark:text-error-400 dark:hover:bg-error-500/20"
-                                                                title="Delete User">
-                                                                <svg class="fill-current" width="18" height="18"
-                                                                    viewBox="0 0 18 18" fill="none"
-                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                        @can('frontend-user.view')
+                                                            <!-- View Button -->
+                                                            <a href="{{ route('frontend-user.show', $user->id) }}"
+                                                                class="inline-flex items-center justify-center rounded-lg bg-brand-50 p-2 text-brand-500 hover:bg-brand-100 dark:bg-brand-500/10 dark:text-brand-400 dark:hover:bg-brand-500/20"
+                                                                title="View User">
+                                                                <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18"
+                                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <path fill-rule="evenodd" clip-rule="evenodd"
-                                                                        d="M6 2.5H12L13 3.5H16V5H2V3.5H5L6 2.5ZM3.5 6H14.5L14 15.5H4L3.5 6ZM6.5 8.5H8V13.5H6.5V8.5ZM10 8.5H11.5V13.5H10V8.5Z"
+                                                                        d="M9 4.5C5.5 4.5 2.5 6.5 1 9C2.5 11.5 5.5 13.5 9 13.5C12.5 13.5 15.5 11.5 17 9C15.5 6.5 12.5 4.5 9 4.5ZM9 12C7.5 12 6.5 11 6.5 9.5C6.5 8 7.5 7 9 7C10.5 7 11.5 8 11.5 9.5C11.5 11 10.5 12 9 12Z"
                                                                         fill=""></path>
                                                                 </svg>
-                                                            </button>
-                                                        </form>
+                                                            </a>
+                                                        @endcan
+                                                        @can('frontend-user.update')
+                                                            <!-- Edit Button -->
+                                                            <a href="{{ route('frontend-user.edit', $user->id) }}"
+                                                                class="inline-flex items-center justify-center rounded-lg bg-warning-50 p-2 text-warning-500 hover:bg-warning-100 dark:bg-warning-500/10 dark:text-warning-400 dark:hover:bg-warning-500/20"
+                                                                title="Edit User">
+                                                                <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18"
+                                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                                        d="M13.5 2.5L15.5 4.5L5 15H3V13L13.5 2.5ZM14.5 1.5L12.5 3.5L14.5 5.5L16.5 3.5L14.5 1.5Z"
+                                                                        fill=""></path>
+                                                                </svg>
+                                                            </a>
+                                                        @endcan
+                                                        @can('frontend-user.delete')
+                                                            <!-- Delete Button -->
+                                                            <form action="{{ route('frontend-user.destroy', $user->id) }}"
+                                                                method="POST" class="inline delete-form">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit"
+                                                                    class="inline-flex items-center justify-center rounded-lg bg-error-50 p-2 text-error-500 hover:bg-error-100 dark:bg-error-500/10 dark:text-error-400 dark:hover:bg-error-500/20"
+                                                                    title="Delete User">
+                                                                    <svg class="fill-current" width="18" height="18"
+                                                                        viewBox="0 0 18 18" fill="none"
+                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                                                            d="M6 2.5H12L13 3.5H16V5H2V3.5H5L6 2.5ZM3.5 6H14.5L14 15.5H4L3.5 6ZM6.5 8.5H8V13.5H6.5V8.5ZM10 8.5H11.5V13.5H10V8.5Z"
+                                                                            fill=""></path>
+                                                                    </svg>
+                                                                </button>
+                                                            </form>
+                                                        @endcan
                                                     </div>
                                                 </td>
                                             </tr>
