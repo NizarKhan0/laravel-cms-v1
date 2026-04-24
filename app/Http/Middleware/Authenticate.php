@@ -8,11 +8,11 @@ class Authenticate extends Middleware
 {
     protected function redirectTo($request): ?string
     {
-        if ($request->is('admin/*')) {
+        if ($request->is('admin') || $request->is('admin/*')) {
             return route('admin.login');
         }
 
-        if ($request->is('user/*')) {
+        if ($request->is('user') || $request->is('user/*')) {
             return route('user.login');
         }
 
