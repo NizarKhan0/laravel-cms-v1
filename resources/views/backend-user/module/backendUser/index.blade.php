@@ -48,20 +48,20 @@
                 </div>
 
                 <!-- Success Message -->
-                <!-- @if(session('success'))
-                            <div
-                                class="mb-5 rounded-xl border border-green-200 bg-green-50 p-4 dark:border-green-500/20 dark:bg-green-500/10">
-                                <div class="flex items-center gap-2">
-                                    <svg class="fill-green-500" width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                            d="M10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18ZM13.7071 8.70711C14.0976 8.31658 14.0976 7.68342 13.7071 7.29289C13.3166 6.90237 12.6834 6.90237 12.2929 7.29289L9 10.5858L7.70711 9.29289C7.31658 8.90237 6.68342 8.90237 6.29289 9.29289C5.90237 9.68342 5.90237 10.3166 6.29289 10.7071L8.29289 12.7071C8.68342 13.0976 9.31658 13.0976 9.70711 12.7071L13.7071 8.70711Z"
-                                            fill=""></path>
-                                    </svg>
-                                    <p class="text-sm text-green-700 dark:text-green-400">{{ session('success') }}</p>
-                                </div>
-                            </div>
-                        @endif -->
+                <!-- @if (session('success'))
+                <div
+                                                                    class="mb-5 rounded-xl border border-green-200 bg-green-50 p-4 dark:border-green-500/20 dark:bg-green-500/10">
+                                                                    <div class="flex items-center gap-2">
+                                                                        <svg class="fill-green-500" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                                                            xmlns="http://www.w3.org/2000/svg">
+                                                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                                                d="M10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18ZM13.7071 8.70711C14.0976 8.31658 14.0976 7.68342 13.7071 7.29289C13.3166 6.90237 12.6834 6.90237 12.2929 7.29289L9 10.5858L7.70711 9.29289C7.31658 8.90237 6.68342 8.90237 6.29289 9.29289C5.90237 9.68342 5.90237 10.3166 6.29289 10.7071L8.29289 12.7071C8.68342 13.0976 9.31658 13.0976 9.70711 12.7071L13.7071 8.70711Z"
+                                                                                fill=""></path>
+                                                                        </svg>
+                                                                        <p class="text-sm text-green-700 dark:text-green-400">{{ session('success') }}</p>
+                                                                    </div>
+                                                                </div>
+                @endif -->
 
                 <div class="rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.02]">
                     <div class="p-5">
@@ -96,10 +96,16 @@
                                                     Full Name
                                                 </span>
                                             </th>
-                                            <th class="px-5 py-3 text-left">
+                                            {{-- <th class="px-5 py-3 text-left">
                                                 <span
                                                     class="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                                     Created At
+                                                </span>
+                                            </th> --}}
+                                            <th class="px-5 py-3 text-left">
+                                                <span
+                                                    class="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                                    Last Login At
                                                 </span>
                                             </th>
                                             <th class="px-5 py-3 text-right">
@@ -131,13 +137,28 @@
                                                 </td>
                                                 <td class="px-5 py-4">
                                                     <span class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                                        {{ $user->first_name ? $user->first_name . ' ' . ($user->last_name ?? '') : ($user->last_name ?? '-') }}
+                                                        {{ $user->first_name ? $user->first_name . ' ' . ($user->last_name ?? '') : $user->last_name ?? '-' }}
                                                     </span>
                                                 </td>
+                                                {{-- <td class="px-5 py-4">
+                                                    <div class="flex flex-col">
+                                                        <span class="text-sm text-gray-600 dark:text-gray-400">
+                                                            {{ $user->created_at ? $user->created_at->format('H:i') : '-' }}
+                                                        </span>
+                                                        <span class="text-xs text-gray-500 dark:text-gray-500">
+                                                            {{ $user->created_at ? $user->created_at->format('d F Y') : '-' }}
+                                                        </span>
+                                                    </div>
+                                                </td> --}}
                                                 <td class="px-5 py-4">
-                                                    <span class="block text-sm text-gray-500 dark:text-gray-500">
-                                                        {{ $user->created_at ? $user->created_at->format('Y-m-d H:i') : '-' }}
-                                                    </span>
+                                                    <div class="flex flex-col">
+                                                        <span class="text-sm text-gray-600 dark:text-gray-400">
+                                                            {{ $user->last_login_at ? $user->last_login_at->format('H:i') : '-' }}
+                                                        </span>
+                                                        <span class="text-xs text-gray-500 dark:text-gray-500">
+                                                            {{ $user->last_login_at ? $user->last_login_at->format('d F Y') : '-' }}
+                                                        </span>
+                                                    </div>
                                                 </td>
                                                 <td class="px-5 py-4">
                                                     <div class="flex items-center justify-end gap-2">
@@ -201,7 +222,8 @@
                                                             No users found
                                                         </h4>
                                                         <p class="text-sm text-gray-500 dark:text-gray-500">
-                                                            Click the "Create New User" button to add your first backend user.
+                                                            Click the "Create New User" button to add your first backend
+                                                            user.
                                                         </p>
                                                     </div>
                                                 </td>
@@ -214,7 +236,7 @@
                         <!-- ====== Table End ====== -->
 
                         <!-- Pagination -->
-                        @if($backendUsers->hasPages())
+                        @if ($backendUsers->hasPages())
                             <div class="mt-6 border-t border-gray-100 pt-5 dark:border-gray-800">
                                 {{ $backendUsers->links() }}
                             </div>
@@ -232,7 +254,7 @@
             deleteForms.forEach(form => {
                 form.addEventListener('submit', function (e) {
                     e.preventDefault();
-                    
+
                     Swal.fire({
                         title: 'Are you sure?',
                         text: "You won't be able to revert this!",

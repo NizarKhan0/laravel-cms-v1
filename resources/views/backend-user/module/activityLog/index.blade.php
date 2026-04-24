@@ -56,6 +56,12 @@
                                             <th class="px-5 py-3 text-left">
                                                 <span
                                                     class="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                                    Log Name
+                                                </span>
+                                            </th>
+                                            <th class="px-5 py-3 text-left">
+                                                <span
+                                                    class="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                                     Performed By
                                                 </span>
                                             </th>
@@ -105,6 +111,13 @@
                                                     <span class="block text-sm font-medium text-gray-800 dark:text-white/90">
                                                         {{ $loop->iteration }}
                                                     </span>
+                                                </td>
+                                                <td class="px-5 py-4">
+                                                    <div class="flex flex-col">
+                                                        <span class="text-sm font-medium text-gray-800 dark:text-white/90">
+                                                            {{ $activity->log_name ?? '-' }}
+                                                        </span>
+                                                    </div>
                                                 </td>
                                                 <td class="px-5 py-4">
                                                     <div>
