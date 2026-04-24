@@ -18,7 +18,7 @@ class UserController extends Controller
     {
         $user = auth()->guard('user')->user();
 
-        return view('frontend-user.module.profile.edit', [
+        return view('frontend-user.profile.edit', [
             'user' => $user,
         ]);
     }
