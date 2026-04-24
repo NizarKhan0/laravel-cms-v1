@@ -24,6 +24,14 @@ class AdminRolePermissionSeeder extends Seeder
             'backend-user.update',
             'backend-user.delete',
             'activity-log.view',
+            'role.view',
+            'role.create',
+            'role.update',
+            'role.delete',
+            'permission.view',
+            'permission.create',
+            'permission.update',
+            'permission.delete',
         ];
 
         foreach ($permissions as $permissionName) {

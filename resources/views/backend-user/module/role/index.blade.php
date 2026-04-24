@@ -1,0 +1,62 @@
+@extends('backend-user.layouts.app')
+
+@section('title', 'Roles')
+
+@section('content')
+    <div class="mb-6 flex items-center justify-between">
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">Roles</h2>
+        @can('role.create')
+            <a href="{{ route('roles.create') }}"
+                class="rounded-lg bg-brand-500 px-4 py-2 text-sm text-white hover:bg-brand-600">Create Role</a>
+        @endcan
+    </div>
+
+    <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+        <div class="overflow-x-auto p-5">
+            <table class="w-full min-w-[700px]">
+                <thead>
+                    <tr class="border-b border-gray-100 dark:border-gray-800">
+                        <th class="px-3 py-3 text-left text-xs uppercase text-gray-500">Name</th>
+                        <th class="px-3 py-3 text-left text-xs uppercase text-gray-500">Permissions</th>
+                        <th class="px-3 py-3 text-right text-xs uppercase text-gray-500">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($roles as $role)
+                        <tr class="border-b border-gray-100 dark:border-gray-800">
+                            <td class="px-3 py-3 text-sm text-gray-700 dark:text-gray-300">{{ $role->name }}</td>
+                            <td class="px-3 py-3 text-sm text-gray-600 dark:text-gray-400">
+                                {{ $role->permissions->pluck('name')->join(', ') ?: '-' }}
+                            </td>
+                            <td class="px-3 py-3">
+                                <div class="flex justify-end gap-2">
+                                    @can('role.update')
+                                        <a href="{{ route('roles.edit', $role->id) }}"
+                                            class="rounded border px-3 py-1 text-xs text-gray-700 dark:text-gray-300">Edit</a>
+                                    @endcan
+                                    @can('role.delete')
+                                        @if ($role->name !== 'super-admin')
+                                            <form action="{{ route('roles.destroy', $role->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="rounded border border-red-300 px-3 py-1 text-xs text-red-600">Delete</button>
+                                            </form>
+                                        @endif
+                                    @endcan
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" class="px-3 py-8 text-center text-sm text-gray-500">No roles found.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        @if ($roles->hasPages())
+            <div class="border-t border-gray-100 p-5 dark:border-gray-800">{{ $roles->links() }}</div>
+        @endif
+    </div>
+@endsection

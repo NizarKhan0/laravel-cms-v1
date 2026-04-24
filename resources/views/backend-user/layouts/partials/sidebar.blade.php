@@ -169,6 +169,7 @@
                     <!-- Menu Item Dashboard -->
 
                     <!-- Menu Item Activity Log -->
+                    @can('activity-log.view')
                     <li>
                         <a href="{{ route('activity-log.index') }}"
                             @click="selected = (selected === 'Activity Log' ? '' : 'Activity Log')"
@@ -193,6 +194,7 @@
                             </span>
                         </a>
                     </li>
+                    @endcan
                     <!-- End Menu Item Activity Log -->
 
                     <!-- Menu Item User Management -->
@@ -252,6 +254,7 @@
                     <!-- Menu Item User Management -->
 
                     <!-- Menu Item Roles & Permissions -->
+                    @canany(['role.view', 'permission.view'])
                     <li>
                         <a href="#"
                             @click.prevent="selected = (selected === 'RolesPermissions' ? '':'RolesPermissions')"
@@ -282,22 +285,27 @@
                             :class="(selected === 'RolesPermissions') ? 'block' : 'hidden'">
                             <ul :class="sidebarToggle ? 'lg:hidden' : 'flex'"
                                 class="flex flex-col gap-1 mt-2 menu-dropdown pl-9">
-                                <li>
-                                    <a href="#" @click="page = 'roles'" class="menu-dropdown-item group"
-                                        :class="page === 'roles' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
-                                        Roles
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" @click="page = 'permissions'" class="menu-dropdown-item group"
-                                        :class="page === 'permissions' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
-                                        Permissions
-                                    </a>
-                                </li>
+                                @can('role.view')
+                                    <li>
+                                        <a href="{{ route('roles.index') }}" @click="page = 'roles'" class="menu-dropdown-item group"
+                                            :class="page === 'roles' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                                            Roles
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('permission.view')
+                                    <li>
+                                        <a href="{{ route('permissions.index') }}" @click="page = 'permissions'" class="menu-dropdown-item group"
+                                            :class="page === 'permissions' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                                            Permissions
+                                        </a>
+                                    </li>
+                                @endcan
                             </ul>
                         </div>
                         <!-- Dropdown Menu End -->
                     </li>
+                    @endcanany
                     <!-- Menu Item Roles & Permissions -->
                 </ul>
             </div>

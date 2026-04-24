@@ -1,58 +1,68 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Dynamic Permissions (cms-laravel-v1)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Pengenalan
+- Projek ini gunakan Laravel + Spatie Laravel-Permission. Permissions disimpan per guard (guard_name).
+- Konsep dynamic permissions: bila model menggunakan trait HasDynamicPermissions dan dicipta, permissions standard akan dijana secara automatik.
+- Contoh pola nama permission: BackendUser → backend-user.view, backend-user.create, backend-user.update, backend-user.delete.
+- Nama permission menggunakan format slug.action, di mana slug adalah kebab-case bagi nama kelas model.
 
-## About Laravel
+Kenapa slug berbeza daripada nama kelas
+- Nama kelas PHP seperti BackendUser adalah BackendUser.
+- Slug permission dihasilkan dalam kebab-case: BackendUser → backend-user.
+- Permissions akan jadi backend-user.view, backend-user.create, dsb.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Konsep Utama
+- HasDynamicPermissions (trait) menjana permissions secara automatik ketika model dicipta.
+-Slug dan format permission: slug.action (cth backend-user.view).
+- Guard utama adalah admin secara default. Sokongan multi-guard boleh ditambah kemudian.
+- UI permission menyokong pemilihan guard_name untuk setiap permission.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Cara Gunaan Praktikal
+1) Model baru
+- Tambah trait HasDynamicPermissions pada model baru. Contoh:
+  - namespace App\\Models\\backendUser;
+  - use App\\Models\\Concerns\\HasDynamicPermissions;
+  - class Article extends Model { use HasDynamicPermissions; }
+- Bila Article dicipta, permissions akan dijana: article.view, article.create, article.update, article.delete.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+2) Guna permission di UI
+- Dalam create/edit permission, anda boleh pilih guard_name (mengikut config('auth.guards')).
+- Nama permission tetap (cth article.view), tetapi guard_name akan sahkan konteksnya.
 
-## Learning Laravel
+3) Guna dynamic permission di view/middleware
+- Blade directive contoh:
+  @dynamiccan('view', App\\Models\\backendUser\\Article::class)
+    // content dilindungi
+  @enddynamiccan
+- Middleware contoh (CheckDynamicPermission):
+  Route::get('/admin/articles', [ArticleController::class, 'index'])
+    ->middleware('dynamic_perm:view,App\\Models\\backendUser\\Article');
+- Helper untuk nama permission:
+  App\\Helpers\\DynamicPermissionHelper::permissionName('view', App\\Models\\backendUser\\Article::class)
+  // hasilnya: backend-user.view
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+4) Multi-guard (future)
+- Pegangan sekarang: admin. Untuk multi-guard, tambah logik simpan guard pada model, tambah pilihan guard pada trait, dan sesuaikan query permission.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Fail-fail utama yang terlibat (ringkas)
+- app/Models/Concerns/HasDynamicPermissions.php
+- app/Helpers/DynamicPermissionHelper.php
+- app/Models/backendUser/BackendUser.php (contoh penerapan trait)
+- resources/views/backend-user/module/permission/create.blade.php
+- resources/views/backend-user/module/permission/edit.blade.php
+- app/Http/Controllers/backendUser/PermissionController.php
+- app/Providers/AppServiceProvider.php
+- app/Http/Middleware/CheckDynamicPermission.php
+- README ini sebagai panduan ringkas
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Langkah verifikasi
+- Buat model baru yang menggunakan HasDynamicPermissions. Semak DB untuk permissions baru (cth backend-user.view, backend-user.create, dsb).
+- Gunakan permission tersebut untuk gating di view atau route middleware.
+- Pastikan guard_name konsisten jika anda guna multi-guard.
 
-## Agentic Development
+Soalan Lazim
+- Mengapa slug jadi backend-user? Kerana kita guna kebab-case untuk slug model.
+- Boleh tukar format kepada view_backend-user? Ya, kita boleh tukar pola di DynamicPermissionHelper jika diperlukan.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
-```
-
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Kredit
+- Komponen ini disediakan sebagai helper untuk kemudahan pembuatan permissions secara dinamik dalam projek anda.

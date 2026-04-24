@@ -14,6 +14,7 @@ use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Activitylog\Support\LogOptions;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Concerns\HasDynamicPermissions;
 
 #[Table('backend_users')]
 #[Fillable([
@@ -36,7 +37,7 @@ use Spatie\Permission\Traits\HasRoles;
 ])]
 class BackendUser extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable, LogsActivity, HasRoles;
+    use HasFactory, Notifiable, LogsActivity, HasRoles, HasDynamicPermissions;
 
     protected string $guard_name = 'admin';
 

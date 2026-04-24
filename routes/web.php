@@ -5,6 +5,8 @@ use App\Http\Controllers\backendUser\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\backendUser\Auth\EmailVerificationController;
 use App\Http\Controllers\backendUser\BackendUserController;
 use App\Http\Controllers\backendUser\FrontendUserController;
+use App\Http\Controllers\backendUser\PermissionController;
+use App\Http\Controllers\backendUser\RoleController;
 use App\Http\Controllers\frontendUser\Auth\VerifyEmailController;
 use App\Http\Controllers\frontendUser\Auth\LoginController;
 use App\Http\Controllers\frontendUser\Auth\RegisterController;
@@ -179,6 +181,24 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     // Activity Log: view and API (requires admin auth)
     Route::get('/activity-log', [ActivityLogController::class, 'indexView'])->middleware('permission:activity-log.view,admin')->name('activity-log.index');
     // Route::get('/api/activity-logs', [ActivityLogController::class, 'indexApi'])->name('activity-log.api');
+
+    Route::controller(RoleController::class)->group(function () {
+        Route::get('/roles', 'index')->middleware('permission:role.view,admin')->name('roles.index');
+        Route::get('/roles/create', 'create')->middleware('permission:role.create,admin')->name('roles.create');
+        Route::post('/roles', 'store')->middleware('permission:role.create,admin')->name('roles.store');
+        Route::get('/roles/{id}/edit', 'edit')->middleware('permission:role.update,admin')->name('roles.edit');
+        Route::put('/roles/{id}', 'update')->middleware('permission:role.update,admin')->name('roles.update');
+        Route::delete('/roles/{id}', 'destroy')->middleware('permission:role.delete,admin')->name('roles.destroy');
+    });
+
+    Route::controller(PermissionController::class)->group(function () {
+        Route::get('/permissions', 'index')->middleware('permission:permission.view,admin')->name('permissions.index');
+        Route::get('/permissions/create', 'create')->middleware('permission:permission.create,admin')->name('permissions.create');
+        Route::post('/permissions', 'store')->middleware('permission:permission.create,admin')->name('permissions.store');
+        Route::get('/permissions/{id}/edit', 'edit')->middleware('permission:permission.update,admin')->name('permissions.edit');
+        Route::put('/permissions/{id}', 'update')->middleware('permission:permission.update,admin')->name('permissions.update');
+        Route::delete('/permissions/{id}', 'destroy')->middleware('permission:permission.delete,admin')->name('permissions.destroy');
+    });
 
 });
 
